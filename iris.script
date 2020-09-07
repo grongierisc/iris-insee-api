@@ -1,6 +1,11 @@
+Set namespace = "FHIRAAS"
+
 ; run installer to create namespace
 do $SYSTEM.OBJ.Load("/opt/irisapp/Installer.cls", "ck")
 set sc = ##class(App.Installer).setup() 
+
+zn namespace
+zw $System.OBJ.ImportDir("/opt/irisapp/src/","*","cdk",.errors,1)
 
 zn "%SYS"
 Do ##class(Security.Users).UnExpireUserPasswords("*")
