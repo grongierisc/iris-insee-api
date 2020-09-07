@@ -26,9 +26,10 @@ Method GetInformations(pResquest As Ens.Request, Output pResponse As Ens.StringC
 
     Set tURL = ..Adapter.URL
     Set tURL = tURL_"/informations"
-    $$$ThrowOnError(..Adapter.GetURL(tURL,.tHttpResponse))
+    do ..%HttpRequest.SetHeader("Authorization", "Bearer " _ ..Adapter.InseeToken)
+    $$$ThrowOnError(..Adapter.GetURLH(tURL,..%HttpRequest,.tHttpResponse))
 
-    Set pResponse = ##class(Ens.StringContainer).%New(tHttpResponse.Data)
+    Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
 
     Quit $$$OK
 }
