@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.Definition.esantamodelAPE Extends (%JSON.Adaptor, %RegisteredObject) [ Inheritance = right, Not ProcedureBlock ]
+Class MDM.EJFINESS.Definition.esantamodelAPE Extends (%XML.Adaptor, %JSON.Adaptor, %SerialObject) [ Inheritance = right, Not ProcedureBlock ]
 {
 
 Property code As %VarString;
