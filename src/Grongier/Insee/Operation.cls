@@ -4,30 +4,28 @@ Class Grongier.Insee.Operation Extends Ens.BusinessOperation [ System = 4 ]
 
 Parameter ADAPTER = "Grongier.Insee.Adapter";
 
-/// Holds request object used to submit requests and get reponses
-Property %HttpRequest As %Net.HttpRequest [ Internal ];
-
-/// This user callback method is called via initConfig() from %OnNew() or in the case of SOAP Services from OnPreSOAP()
-Method OnInit() As %Status
-{
-    Set ..%HttpRequest=##class(%Net.HttpRequest).%New()
-
-	do ##super()
-	Quit $$$OK
-}
-
-Method OnMessage() As %Status
-{
-    Quit $$$OK
-}
+Property Adapter As Grongier.Insee.Adapter;
 
 Method GetInformations(pResquest As Ens.Request, Output pResponse As Ens.StringContainer) As %Status
 {
 
     Set tURL = ..Adapter.URL
     Set tURL = tURL_"/informations"
-    do ..%HttpRequest.SetHeader("Authorization", "Bearer " _ ..Adapter.InseeToken)
-    $$$ThrowOnError(..Adapter.GetURLH(tURL,..%HttpRequest,.tHttpResponse))
+
+    $$$ThrowOnError(..Adapter.GetURLInsee(tURL,.tHttpResponse))
+
+    Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
+
+    Quit $$$OK
+}
+
+Method GetSirenById(pResquest As Ens.Request, Output pResponse As Ens.StringContainer) As %Status
+{
+
+    Set tURL = ..Adapter.URL
+    Set tURL = tURL_"/siren/"_pResquest.StringValue
+
+    $$$ThrowOnError(..Adapter.GetURLInsee(tURL,.tHttpResponse))
 
     Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
 
@@ -37,9 +35,13 @@ Method GetInformations(pResquest As Ens.Request, Output pResponse As Ens.StringC
 XData MessageMap
 {
 <MapItems>
+    <MapItem MessageType="Ens.StringRequest"> 
+		<Method>GetSirenById</Method>
+	</MapItem>
 	<MapItem MessageType="Ens.Request"> 
 		<Method>GetInformations</Method>
 	</MapItem>
+
 </MapItems>
 }
 
