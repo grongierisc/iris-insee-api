@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Definition.Entity Extends (%JSON.Adaptor, %RegisteredObject) [ Inheritance = right, Not ProcedureBlock ]
+Class MDM.EJFINESS.REST.Definition.Entity Extends (%JSON.Adaptor, %XML.Adaptor, %SerialObject) [ Inheritance = right, Not ProcedureBlock ]
 {
 
 Property description As %VarString;

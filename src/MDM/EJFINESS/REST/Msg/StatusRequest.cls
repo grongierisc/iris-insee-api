@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Msg.Status Extends Ens.Request
+Class MDM.EJFINESS.REST.Msg.StatusRequest Extends Ens.Request
 {
 
 Property systemGUID As %String;

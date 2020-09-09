@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Definition.EntityRecordLinkResponse Extends (%JSON.Adaptor, %RegisteredObject) [ Inheritance = right, Not ProcedureBlock ]
+Class MDM.EJFINESS.REST.Definition.EntityRecordLinkResponse Extends (%JSON.Adaptor, %XML.Adaptor, %SerialObject) [ Inheritance = right, Not ProcedureBlock ]
 {
 
 Property requestGUID As %VarString;

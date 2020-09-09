@@ -1,22 +1,28 @@
-ROUTINE MDM.EJFINESS.REST.Operation.1 [Type=INT,Generated]
- ;MDM.EJFINESS.REST.Operation.1
- ;Generated for class MDM.EJFINESS.REST.Operation.  Do NOT edit. 09/08/2020 07:46:17PM
- ;;38384F59;MDM.EJFINESS.REST.Operation
+ROUTINE Grongier.Insee.Operation.1 [Type=INT,Generated]
+ ;Grongier.Insee.Operation.1
+ ;Generated for class Grongier.Insee.Operation.  Do NOT edit. 09/08/2020 03:18:40PM
+ ;;51335A5A;Grongier.Insee.Operation
  ;
+zGetInformations(pResquest,pResponse) public {
+    Set tURL = ..Adapter.URL
+    Set tURL = tURL_"/informations"
+    Set sc=..Adapter.GetURLInsee(tURL,.tHttpResponse) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+    Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
+    Quit 1 }
 zGetRequestClassList() public {
  Set tList=""
- Set tList=tList_$lb("MDM.EJFINESS.REST.Msg.Status")
- Set tList=tList_$lb("MDM.REST.Msg.EsantamodelEJFinessOcc")
+ Set tList=tList_$lb("Ens.Request")
+ Set tList=tList_$lb("Ens.StringRequest")
  Quit tList }
 zGetResponseClassList(pRequest="") public {
- If pRequest="MDM.EJFINESS.REST.Msg.Status" Quit $lb("Ens.StringContainer")
- If pRequest="MDM.REST.Msg.EsantamodelEJFinessOcc" Quit $lb("Ens.StringContainer")
+ If pRequest="Ens.Request" Quit $lb("Ens.StringContainer")
+ If pRequest="Ens.StringRequest" Quit $lb("Ens.StringContainer")
  If pRequest="" Quit $lb("Ens.StringContainer","Ens.StringContainer")
  Quit "" }
 zGetSettingRow(pSettingName="",pSourceClass="") public {
 	Set tRow = ""
 	// Check if the class has been compiled with the new generator
-	If (pSourceClass = "MDM.EJFINESS.REST.Operation") {
+	If (pSourceClass = "Grongier.Insee.Operation") {
 		Set tRow = $case(pSettingName,
 			"AlertGroups": $LB("AlertGroups","The Alert Groups to which this item belongs.","%Library.String","",2500,"","","","",0,"Alert Groups","Alerting","Alerting Control","selector?multiSelect=1&context={Ens.ContextSearch/ProductionAlertGroups?productionName=@productionId}"),
 			"AlertOnError": $LB("AlertOnError","Send an Alert message whenever an error occurs here","%Library.Boolean",0,"","","","","",0,"Alert On Error","Alerting","Alerting Control",""),
@@ -37,30 +43,30 @@ zGetSettingRow(pSettingName="",pSourceClass="") public {
 		Set tRow = ..GetDynamicSettingRow(pSettingName,pSourceClass)
 	}
 	Quit tRow }
-zGetStatus(pResquest,pResponse) public {
+zGetSirenById(pResquest,pResponse) public {
     Set tURL = ..Adapter.URL
-    Set tURL = tURL_"/status?systemGUID="_pResquest.systemGUID_"&requestGUID="_pResquest.requestGUID
-    Set sc=..Adapter.GetURL(tURL,.tHttpResponse) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+    Set tURL = tURL_"/siren/"_pResquest.StringValue
+    Set sc=..Adapter.GetURLInsee(tURL,.tHttpResponse) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
     Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
     Quit 1 }
 zMessageHandler(pRequest,pResponse) public {
  Set $ZT="Trap",$EC="",tSC=1
  do {
- If pRequest.%IsA("MDM.EJFINESS.REST.Msg.Status") {
-  Do:..ArchiveIO ..NewIOLogEntry(0,1,"","GetStatus",..%SessionId,pRequest)
-  Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="GetStatus",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
-  Set tSC=..GetStatus(.pRequest,.pResponse)
+ If pRequest.%IsA("Ens.StringRequest") {
+  Do:..ArchiveIO ..NewIOLogEntry(0,1,"","GetSirenById",..%SessionId,pRequest)
+  Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="GetSirenById",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
+  Set tSC=..GetSirenById(.pRequest,.pResponse)
   Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
-  Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHandler","GetStatus() returned with status "_$$getAllErrorTexts^EnsUtil(tSC)_", Retry="_..Retry_", SuspendMessage="_..SuspendMessage_", DeferResponse="_..DeferResponse_", Response="_$S('($Data(pResponse)#2&&$IsObject(pResponse)):"", 1:pResponse_"/"_$S('pResponse.%Extends("%Persistent"):"", 1:pResponse.%Id())))
+  Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHandler","GetSirenById() returned with status "_$$getAllErrorTexts^EnsUtil(tSC)_", Retry="_..Retry_", SuspendMessage="_..SuspendMessage_", DeferResponse="_..DeferResponse_", Response="_$S('($Data(pResponse)#2&&$IsObject(pResponse)):"", 1:pResponse_"/"_$S('pResponse.%Extends("%Persistent"):"", 1:pResponse.%Id())))
   Do:$IsObject(..IOLogEntry) ..CloseIOLogEntry(tSC,"",$G(pResponse))
   Quit
  }
- If pRequest.%IsA("MDM.REST.Msg.EsantamodelEJFinessOcc") {
-  Do:..ArchiveIO ..NewIOLogEntry(0,1,"","PostEsantamodelEJFinessOcc",..%SessionId,pRequest)
-  Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="PostEsantamodelEJFinessOcc",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
-  Set tSC=..PostEsantamodelEJFinessOcc(.pRequest,.pResponse)
+ If pRequest.%IsA("Ens.Request") {
+  Do:..ArchiveIO ..NewIOLogEntry(0,1,"","GetInformations",..%SessionId,pRequest)
+  Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="GetInformations",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
+  Set tSC=..GetInformations(.pRequest,.pResponse)
   Set ^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%Method")="",^IRIS.Temp.EnsJobMonitor($namespace,"sys"_":"_$Job,..%ConfigName,"%LastActivity")=$zdatetime($ztimestamp,3,,3)
-  Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHandler","PostEsantamodelEJFinessOcc() returned with status "_$$getAllErrorTexts^EnsUtil(tSC)_", Retry="_..Retry_", SuspendMessage="_..SuspendMessage_", DeferResponse="_..DeferResponse_", Response="_$S('($Data(pResponse)#2&&$IsObject(pResponse)):"", 1:pResponse_"/"_$S('pResponse.%Extends("%Persistent"):"", 1:pResponse.%Id())))
+  Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHandler","GetInformations() returned with status "_$$getAllErrorTexts^EnsUtil(tSC)_", Retry="_..Retry_", SuspendMessage="_..SuspendMessage_", DeferResponse="_..DeferResponse_", Response="_$S('($Data(pResponse)#2&&$IsObject(pResponse)):"", 1:pResponse_"/"_$S('pResponse.%Extends("%Persistent"):"", 1:pResponse.%Id())))
   Do:$IsObject(..IOLogEntry) ..CloseIOLogEntry(tSC,"",$G(pResponse))
   Quit
  }
@@ -346,18 +352,6 @@ zOnKeepalive(pAdapterStatus) public {
 	} Else { Set ..%AlertStartTime=0, tTxt="" }
 	Set ..%LastReportedError=tTxt
 	Quit tSC }
-zPostEsantamodelEJFinessOcc(pResquest,pResponse) public {
-    Set tURL = ..Adapter.URL
-    Set tURL = tURL_"/esanta_model_EJFinessOcc"
-    do pResquest.%JSONExportToStream(.stream)
-    set dyna = {}
-    set dyna.systemGUID = "BA6A079E-EECD-11EA-A221-0242AC110006"
-    set dyna.initSystemRecordId = "test"
-    set dyna.payload = {}.%FromJSON(stream)
-    Do ##class(Ens.Util.Log).LogInfo($classname(),"PostEsantamodelEJFinessOcc",dyna.%ToJSON())
-    Set sc=..Adapter.PostURL(tURL,.tHttpResponse,,stream) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
-    Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
-    Quit 1 }
 zfinalReplyAction(pAction,pSC,pFixError) public {
 	If pAction["S" {
 		Set ..SuspendMessage=1, tActionDesc="Suspending on"
@@ -379,7 +373,7 @@ zfinalReplyAction(pAction,pSC,pFixError) public {
 	Set:pFixError pSC=$$Error^%apiOBJ("<Ens>ErrGeneral",tActionDesc_" "_$$getAllErrorTexts^EnsUtil(pSC))
 	Quit pSC }
 zAdapterNewObject() public {
-	Set newobject=##class(EnsLib.HTTP.OutboundAdapter).%New() If newobject="" Quit ""
+	Set newobject=##class(Grongier.Insee.Adapter).%New() If newobject="" Quit ""
 	Set ..Adapter=newobject
 	Quit newobject }
 zEnumerateSettingsGetInfo(colinfo,parminfo,idinfo,qHandle,extoption=0,extinfo) public {
@@ -391,7 +385,7 @@ zEnumerateSettingsGetInfo(colinfo,parminfo,idinfo,qHandle,extoption=0,extinfo) p
 	}
 	Quit 1 }
 zEnumerateSettingsGetODBCInfo(colinfo,parminfo,qHandle) public {
-	Set metadata=$lb(1,14,"Name",12,50,0,2,"Name","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Description",12,50,0,2,"Description","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Type",12,50,0,2,"Type","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Default",12,50,0,2,"Default","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXLEN",12,50,0,2,"MAXLEN","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MINVAL",12,50,0,2,"MINVAL","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXVAL",12,50,0,2,"MAXVAL","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"VALUELIST",12,50,0,2,"VALUELIST","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"DISPLAYLIST",12,50,0,2,"DISPLAYLIST","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"IsRequired",12,50,0,2,"IsRequired","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedName",12,50,0,2,"LocalizedName","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Category",12,50,0,2,"Category","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedCategory",12,50,0,2,"LocalizedCategory","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"EditorContext",12,50,0,2,"EditorContext","Operation","MDM_EJFINESS_REST","",$c(0,0,0,0,0,0,0,0,0,0,0,0),0)
+	Set metadata=$lb(1,14,"Name",12,50,0,2,"Name","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Description",12,50,0,2,"Description","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Type",12,50,0,2,"Type","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Default",12,50,0,2,"Default","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXLEN",12,50,0,2,"MAXLEN","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MINVAL",12,50,0,2,"MINVAL","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXVAL",12,50,0,2,"MAXVAL","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"VALUELIST",12,50,0,2,"VALUELIST","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"DISPLAYLIST",12,50,0,2,"DISPLAYLIST","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"IsRequired",12,50,0,2,"IsRequired","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedName",12,50,0,2,"LocalizedName","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Category",12,50,0,2,"Category","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedCategory",12,50,0,2,"LocalizedCategory","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"EditorContext",12,50,0,2,"EditorContext","Operation","Grongier_Insee","",$c(0,0,0,0,0,0,0,0,0,0,0,0),0)
 	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
 	Set colinfo=$li(metadata,2,2+cmdlen)
 	Quit 1 }

@@ -1,0 +1,115 @@
+ROUTINE Grongier.OpenApi.Definition.1 [Type=INT,Generated]
+ ;Grongier.OpenApi.Definition.1
+ ;Generated for class Grongier.OpenApi.Definition.  Do NOT edit. 09/09/2020 02:06:09PM
+ ;;6E71474B;Grongier.OpenApi.Definition
+ ;
+zCreateClassDef(className,classDef) public {
+	Set classDef=""
+	If className="" Quit 1
+    If $d(^oddDEF(className)) {
+        Set sc=$$Delete^%apiOBJ(className,"-d")
+        If ('sc) Quit sc
+    }
+	Kill %objlasterror
+	Set classDef=##class(%Dictionary.ClassDefinition).%New(className)
+	If '$isobject(classDef) {
+		Quit $get(%objlasterror,$$Error^%apiOBJ(5908,className))
+	}
+	Quit 1 }
+zCreateProperty(classDef,name,value,listRequired,desc,allowOverride=1) public {
+ 	Set sc=1
+	Set className=classDef.Name
+	Set paramPos=""
+	// Look for existing property
+	For i=1:1:classDef.Properties.Count() {
+		If classDef.Properties.GetAt(i).Name=name {
+			Set paramPos=i
+			Quit
+		}
+	}
+	// If override not allowed and property already present, then just exit. 	
+	If 'allowOverride,paramPos'="" Quit 1
+ 	// Create a new property
+	Set propName=className_":"_name
+	Kill %objlasterror
+	Set propDef=##class(%Dictionary.PropertyDefinition).%New(propName)
+	If propDef="" {
+		Quit $get(%objlasterror,$$Error^%apiOBJ(5908,propName) )
+ 	}
+	// Fill in the type, value and description
+	Do ..GetObjectScriptType(value,.propDef)
+	Set propDef.Description=$get(desc)
+	// Set property as required
+	Set N=listRequired.%Size()
+	For i=0:1:N-1 {
+    	Set:(name=listRequired.%Get(i)) propDef.Required = 1
+	}
+	// Set Min and Max if defined
+	do:(value.minimum'="") propDef.Parameters.SetAt(value.minimum,"MINVAL")
+	do:(value.maximum'="") propDef.Parameters.SetAt(value.maximum,"MAXVAL")
+	do:(value.minLength'="") propDef.Parameters.SetAt(value.minLength,"MINLEN")
+	do:(value.maxLength'="") propDef.Parameters.SetAt(value.maxLength,"MAXLEN")
+	// Set enum to valuelist
+	if value.enum '= "" {
+		set enums = value.enum
+		if enums.%IsA("%DynamicArray") {
+			Set valueList = ""
+			Set N=enums.%Size()
+			For i=0:1:N-1 {
+				Set valueList = valueList _","_ enums.%Get(i)
+			}
+		}
+		do propDef.Parameters.SetAt(valueList,"VALUELIST") 
+	}
+	// Insert into the class definition
+	If paramPos="" {
+		Do classDef.Properties.Insert(propDef)
+	} Else {
+		Do classDef.Properties.SetAt(propDef,paramPos)
+	}
+	Quit 1 }
+zGenerateClass(name,object) public {
+    Do ..CreateClassDef(name,.classDef)
+	// Add super class
+	Set parent="%JSON.Adaptor,%RegisteredObject"
+	Set classDef.Super=parent
+    // For each property
+    Set iterProperty = object.properties.%GetIterator()
+	Set listRequired = object.required
+	Set:(listRequired="") listRequired = ##class(%Library.DynamicArray).%New()
+    while iterProperty.%GetNext( .key , .value ) {
+        Do ..CreateProperty(classDef,$Translate(key,"_"),value,listRequired)   
+    }
+    zw classDef.%Save()
+    Quit 1 }
+zGetObjectScriptType(property,propDef) public {
+	Set type=property.type
+	If type="array" {
+		Set propDef.Collection="list"
+		Set propDef.Type = $tr($Replace($case(property.items.type,"string":"%VarString","number":"%Float","integer":"%Integer","boolean":"%Boolean","":property.items."$ref",:"%VarString"),"#/definitions/",""),"_")
+	} ElseIf type="file" {
+		Set propDef.Type="%Stream.Object"
+	} Else {
+		Set propDef.Type=$tr($Replace($case(property.type,"string":"%VarString","number":"%Float","integer":"%Integer","boolean":"%Boolean","":property."$ref",:"%VarString"),"#/definitions/",""),"_")
+	}
+	Quit 1 }
+zProcess(specClass="PetStore.spec") public {
+    // Get API Definition
+    Do ##class(%REST.RESTSpec).GetSpecificationXData(specClass,,.txdata)
+    Set openapispec = ##class(%Library.DynamicObject).%FromJSON(txdata.Data)
+    Set definitions = openapispec.definitions
+	// Get package definiton
+	set package = $p(specClass,".",1,*-1)
+	set definitionPackage = package_".Definition"
+	// Iter throw api definitions
+    Set iterDefinitions = definitions.%GetIterator()
+    while iterDefinitions.%GetNext(.key , .value ) {
+		if key [ "_" {
+			set tKey = $Translate(key,"_") 
+		}
+		else {
+			set tKey = key
+		}
+        Do:((value.type = "object")) ..GenerateClass(definitionPackage_"."_tKey,value)
+    }
+	Quit $System.OBJ.CompilePackage(definitionPackage) }

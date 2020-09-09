@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Definition.EntityRecordModifyResponse Extends (%JSON.Adaptor, %RegisteredObject) [ Inheritance = right, Not ProcedureBlock ]
+Class MDM.EJFINESS.REST.Definition.EntityRecordModifyResponse Extends (%JSON.Adaptor, %XML.Adaptor, %SerialObject) [ Inheritance = right, Not ProcedureBlock ]
 {
 
 Property mdmRecordId As %VarString;
