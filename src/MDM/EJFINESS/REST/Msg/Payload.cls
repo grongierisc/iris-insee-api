@@ -1,6 +1,8 @@
 Class MDM.EJFINESS.REST.Msg.Payload Extends (%Persistent, MDM.EJFINESS.REST.Definition.esantamodelEJFinessOcc)
 {
 
+Parameter JSONIGNOREINVALIDFIELD = 1;
+
 Storage Default
 {
 <Data name="PayloadDefaultData">
@@ -129,6 +131,18 @@ Storage Default
 </Value>
 <Value name="42">
 <Value>typologie</Value>
+</Value>
+<Value name="43">
+<Value>isDeleted</Value>
+</Value>
+<Value name="44">
+<Value>mdmId</Value>
+</Value>
+<Value name="45">
+<Value>initSystemRecordId</Value>
+</Value>
+<Value name="46">
+<Value>dictClassName</Value>
 </Value>
 </Data>
 <DataLocation>^MDM.EJFINESS.REST.Msg.PayloadD</DataLocation>

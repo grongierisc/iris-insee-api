@@ -1,13 +1,23 @@
 Class MDM.EJFINESS.REST.Definition.esantamodelEJFinessOcc Extends (%JSON.Adaptor, %XML.Adaptor, %SerialObject) [ Inheritance = right, Not ProcedureBlock ]
 {
 
+Parameter JSONIGNOREINVALIDFIELD = 1;
+
 Property APE As esantamodelAPE;
+
+Property mdmId As %Integer;
+
+Property initSystemRecordId As %String;
+
+Property dictClassName As %String;
 
 Property buildNum As %VarString;
 
 Property changeDateSIREN As %VarString;
 
 Property changeReasonSIREN As %VarString;
+
+Property isDeleted As %Boolean;
 
 Property codeFINESSEJ As %VarString;
 

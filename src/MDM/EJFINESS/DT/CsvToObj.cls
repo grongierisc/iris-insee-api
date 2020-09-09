@@ -17,9 +17,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='source.Codestatutjuridique' property='target.payload.jurStatus.code' action='set' />
 <assign value='source.Libellécourtstatutjuridique' property='target.payload.jurStatus.shortName' action='set' />
 <assign value='source.Libelléstatutjuridique' property='target.payload.jurStatus.name' action='set' />
-<assign value='..ConvertDateTime(source.Datecréation,"%d/%m/%y")' property='target.payload.orgCreateDate' action='set' />
-<assign value='..ConvertDateTime(source.Datemàjstructure,"%d/%m/%y") ' property='target.payload.orgUpdateDate' action='set' />
-<assign value='..ConvertDateTime(source.Datefermeture,"%d/%m/%y")' property='target.payload.liquidateDate' action='set' />
+<assign value='..ConvertDateTime(source.Datecréation,"%d/%m/%Y","%Y-%m-%dT00:00:00Z")' property='target.payload.orgCreateDate' action='set' />
+<assign value='..ConvertDateTime(source.Datemàjstructure,"%d/%m/%Y","%Y-%m-%dT00:00:00Z")' property='target.payload.orgUpdateDate' action='set' />
+<assign value='..ConvertDateTime(source.Datefermeture,"%d/%m/%Y","%Y-%m-%dT00:00:00Z")' property='target.payload.liquidateDate' action='set' />
 <assign value='source.Typefermeture' property='target.payload.liquidateType' action='set' />
 <assign value='source.Qualificationcréation' property='target.payload.creationType' action='set' />
 <assign value='source.Complémentdestinataire' property='target.payload.info' action='set' />
@@ -47,7 +47,7 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='source.LibellécatégorieEtablissement' property='target.payload.orgCategoryName' action='set' />
 <assign value='source.LibellécourtcatégorieEtablissement' property='target.payload.orgCategoryShortName' action='set' />
 <assign value='source.NuméroSIREN' property='target.payload.codeSIREN' action='set' />
-<assign value='..ConvertDateTime(source.DatemodificationSIREN,"%d/%m/%y")' property='target.payload.changeDateSIREN' action='set' />
+<assign value='..ConvertDateTime(source.DatemodificationSIREN,"%d/%m/%Y","%Y-%m-%dT00:00:00Z")' property='target.payload.changeDateSIREN' action='set' />
 <assign value='source.OriginemodificationSIREN' property='target.payload.changeReasonSIREN' action='set' />
 <assign value='source.CodeAPE' property='target.payload.APE.code' action='set' />
 <assign value='source.LibelléAPE' property='target.payload.APE.name' action='set' />
