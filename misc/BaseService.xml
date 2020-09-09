@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://kanosoftware.com/soap" targetNamespace="http://kanosoftware.com/soap" xmlns:ns="http://kanosoftware.com/soap">
+<wsdl:types>
+<s:schema xmlns:__tns="http://kanosoftware.com/soap" targetNamespace="http://kanosoftware.com/soap" elementFormDefault="qualified">
+  <s:complexType name="EntitiesListRequest">
+    <s:annotation>
+      <s:documentation>Get list of integrated Entities  - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="isAsync" type="s:boolean">
+        <s:annotation>
+          <s:documentation>Is async</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="StatusRequest">
+    <s:annotation>
+      <s:documentation>Get status of previously sent async request - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Initial Request GUID in Kano MDM</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntitiesListResponse">
+    <s:annotation>
+      <s:documentation>Get list of integrated Entities - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Used for async requests. Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element xmlns:s01="http://kanosoftware.com/soap" minOccurs="0" name="payloadList" type="s01:EntitiesList">
+        <s:annotation>
+          <s:documentation>XML projection of integrated Entities</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntitiesList">
+    <s:sequence>
+      <s:element xmlns:s01="http://kanosoftware.com/soap" maxOccurs="unbounded" minOccurs="0" name="entity" nillable="true" type="s01:Entity"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="ArrayOfEntity">
+    <s:sequence>
+      <s:element xmlns:s01="http://kanosoftware.com/soap" maxOccurs="unbounded" minOccurs="0" name="Entity" nillable="true" type="s01:Entity"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="Entity">
+    <s:sequence>
+      <s:element minOccurs="0" name="systemName" type="s:string"/>
+      <s:element minOccurs="0" name="description" type="s:string"/>
+      <s:element minOccurs="0" name="WSLocation" type="s:string"/>
+      <s:element minOccurs="0" name="useApprovalProcessToApplyChanges" type="s:boolean"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="StatusResponse">
+    <s:annotation>
+      <s:documentation>Get status of previously sent async request - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="payload">
+        <s:annotation>
+          <s:documentation>XML projection of related response</s:documentation>
+        </s:annotation>
+        <s:complexType mixed="true">
+          <s:choice maxOccurs="unbounded" minOccurs="0">
+            <s:any processContents="lax"/>
+          </s:choice>
+        </s:complexType>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+<s:element name="getEntitiesListRequest" type="__tns:EntitiesListRequest"/>
+<s:element name="getEntitiesListResponse" type="__tns:EntitiesListResponse"/>
+<s:element name="getStatusRequest" type="__tns:StatusRequest"/>
+<s:element name="getStatusResponse" type="__tns:StatusResponse"/>
+</s:schema>
+</wsdl:types>
+<wsdl:message name="getEntitiesListSoapIn">
+<wsdl:part name="parameters" element="ns:getEntitiesListRequest"/>
+</wsdl:message>
+<wsdl:message name="getEntitiesListSoapOut">
+<wsdl:part name="parameters" element="ns:getEntitiesListResponse"/>
+</wsdl:message>
+<wsdl:message name="getStatusSoapIn">
+<wsdl:part name="parameters" element="ns:getStatusRequest"/>
+</wsdl:message>
+<wsdl:message name="getStatusSoapOut">
+<wsdl:part name="parameters" element="ns:getStatusResponse"/>
+</wsdl:message>
+<wsdl:portType name="WebServiceSoap">
+<wsdl:operation name="getEntitiesList">
+<wsdl:input message="tns:getEntitiesListSoapIn"/>
+<wsdl:output message="tns:getEntitiesListSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="getStatus">
+<wsdl:input message="tns:getStatusSoapIn"/>
+<wsdl:output message="tns:getStatusSoapOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="getEntitiesList">
+<soap:operation soapAction="getEntitiesList" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="getStatus">
+<soap:operation soapAction="getStatus" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="WebService">
+<wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+<soap:address location="http://test.iris.kanosoftware.net:88/csp/mdm/mdm.ens.integration.soap.BaseService.cls"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,9 @@
+ROUTINE MDM.WS.BaseService.WebServiceSoap.1 [Type=INT,Generated]
+ ;MDM.WS.BaseService.WebServiceSoap.1
+ ;Generated for class MDM.WS.BaseService.WebServiceSoap.  Do NOT edit. 09/09/2020 08:26:58AM
+ ;;35624257;MDM.WS.BaseService.WebServiceSoap
+ ;
+zgetEntitiesList(systemGUID,isAsync,statusText,requestGUID,payloadList) public {
+ Quit ..WebMethod("getEntitiesList","getEntitiesListRequest").Invoke($this,"getEntitiesList",.systemGUID,.isAsync,.statusText,.requestGUID,.payloadList) }
+zgetStatus(systemGUID,requestGUID,statusText,payload) public {
+ Quit ..WebMethod("getStatus","getStatusRequest").Invoke($this,"getStatus",.systemGUID,.requestGUID,.statusText,.payload) }

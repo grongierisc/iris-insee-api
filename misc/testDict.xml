@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://kanosoftware.com/soap" targetNamespace="http://kanosoftware.com/soap" xmlns:ns="http://kanosoftware.com/soap">
+<wsdl:types>
+<s:schema xmlns:__tns="http://kanosoftware.com/soap" targetNamespace="http://kanosoftware.com/soap" elementFormDefault="qualified">
+  <s:complexType name="EntityRecordCheckRequest">
+    <s:annotation>
+      <s:documentation>Check a record of specified Entity for duplicates - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="payload" minOccurs="0" type="tns:testDict"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordAddRequest">
+    <s:annotation>
+      <s:documentation>Add a record of specified Entity - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="initSystemRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="payload" minOccurs="0" type="tns:testDict"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordLinkRequest">
+    <s:annotation>
+      <s:documentation>Link record in external system with a record in MDM (send after adding a new record in external system) - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="initSystemRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="mdmRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in Kano MDM (used while getting a new record, that doesn't exist in initiator system)</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="isAsync" type="s:boolean">
+        <s:annotation>
+          <s:documentation>Is async</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordModifyRequest">
+    <s:annotation>
+      <s:documentation>Modify a record of specified Entity - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="initSystemRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="payload" minOccurs="0" type="tns:testDict"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordDeleteRequest">
+    <s:annotation>
+      <s:documentation>Delete a record of specified Entity - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="initSystemRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordGetRequest">
+    <s:annotation>
+      <s:documentation>Get a single record of specified Entity - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="initSystemRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="mdmRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in Kano MDM (used while getting a new record, that doesn't exist in initiator system)</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="isAsync" type="s:boolean">
+        <s:annotation>
+          <s:documentation>is Async</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordsListRequest">
+    <s:annotation>
+      <s:documentation>Get list of specified Entity records  - REQUEST</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="systemGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Request initiator system GUID</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="isAsync" type="s:boolean">
+        <s:annotation>
+          <s:documentation>Is async</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="ts" type="s:dateTime">
+        <s:annotation>
+          <s:documentation>Last changes timestamp</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="query" type="s:string">
+        <s:annotation>
+          <s:documentation>Query criteria</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordCheckResponse">
+    <s:annotation>
+      <s:documentation>Check a record of specified Entity for duplicates - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="hasDuplicates" type="s:string">
+        <s:annotation>
+          <s:documentation>Record has duplicates in MDM?</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="payloadList" type="tns:DuplicateRecordsList">
+        <s:annotation>
+          <s:documentation>XML projection of duplicate records</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="DuplicateRecordsList">
+    <s:sequence>
+      <s:element maxOccurs="unbounded" minOccurs="0" name="record" nillable="true" type="tns:DuplicateSummary"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="ArrayOfDuplicateSummary">
+    <s:sequence>
+      <s:element maxOccurs="unbounded" minOccurs="0" name="DuplicateSummary" nillable="true" type="tns:DuplicateSummary"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="DuplicateSummary">
+    <s:annotation>
+      <s:documentation>Duplicate Record Summary - Used in EntityRecordCheckResponse</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="dictClassName" type="s:string"/>
+      <s:element minOccurs="0" name="initSystemRecordId" type="s:string"/>
+      <s:element name="mdmId" type="s:string"/>
+      <s:element name="probability" type="s:double"/>
+      <s:element name="description" type="s:string"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordAddResponse">
+    <s:annotation>
+      <s:documentation>Add a record of specified Entity - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="mdmRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in Kano MDM</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordLinkResponse">
+    <s:annotation>
+      <s:documentation>Link record in external system with a record in MDM - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordModifyResponse">
+    <s:annotation>
+      <s:documentation>Modify a record of specified Entity - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="mdmRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in Kano MDM</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordDeleteResponse">
+    <s:annotation>
+      <s:documentation>Delete a record of specified Entity - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="mdmRecordId" type="s:string">
+        <s:annotation>
+          <s:documentation>Record Id in Kano MDM</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordGetResponse">
+    <s:annotation>
+      <s:documentation>Get a single record of specified Entity - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Used for async requests. Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="payload" minOccurs="0" type="tns:testDict"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordsListResponse">
+    <s:annotation>
+      <s:documentation>Get list of specified Entity records  - RESPONSE</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="status" type="s:string">
+        <s:annotation>
+          <s:documentation>Status code. 1 - OK, 0 - ERROR</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="statusText" type="s:string">
+        <s:annotation>
+          <s:documentation>Status text. Error description or other info</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="requestGUID" type="s:string">
+        <s:annotation>
+          <s:documentation>Used for async requests. Initial Request GUID in Kano MDM. Use this GUID in 'getStatusRequest'</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element name="ts" type="s:dateTime">
+        <s:annotation>
+          <s:documentation>Last changes timestamp</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="payloadList" type="tns:EntityRecordsList">
+        <s:annotation>
+          <s:documentation>XML projection of specified Entity records</s:documentation>
+        </s:annotation>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="EntityRecordsList">
+    <s:sequence>
+      <s:element maxOccurs="unbounded" minOccurs="0" name="record" nillable="true" type="tns:RecordSummary"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="ArrayOfRecordSummary">
+    <s:sequence>
+      <s:element maxOccurs="unbounded" minOccurs="0" name="RecordSummary" nillable="true" type="tns:RecordSummary"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="RecordSummary">
+    <s:annotation>
+      <s:documentation>Record Summary - Used in EntityRecordsListResponse</s:documentation>
+    </s:annotation>
+    <s:sequence>
+      <s:element name="dictClassName" type="s:string"/>
+      <s:element minOccurs="0" name="initSystemRecordId" type="s:string"/>
+      <s:element name="mdmId" type="s:string"/>
+    </s:sequence>
+  </s:complexType>
+  <s:complexType name="testDict">
+    <s:sequence>
+      <s:element minOccurs="0" name="isDeleted" type="s:boolean"/>
+      <s:element minOccurs="0" name="ts" type="s:dateTime">
+        <s:annotation>
+          <s:documentation>Last change date (read-only)</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="initSystemRecordId">
+        <s:annotation>
+          <s:documentation>Record Id in initiator system (or GUID)</s:documentation>
+        </s:annotation>
+        <s:simpleType>
+          <s:restriction base="s:string">
+            <s:maxLength value="250"/>
+          </s:restriction>
+        </s:simpleType>
+      </s:element>
+      <s:element minOccurs="0" name="dictClassName">
+        <s:annotation>
+          <s:documentation>Entity class name</s:documentation>
+        </s:annotation>
+        <s:simpleType>
+          <s:restriction base="s:string">
+            <s:maxLength value="250"/>
+          </s:restriction>
+        </s:simpleType>
+      </s:element>
+      <s:element minOccurs="0" name="code">
+        <s:annotation>
+          <s:documentation>System name</s:documentation>
+        </s:annotation>
+        <s:simpleType>
+          <s:restriction base="s:string">
+            <s:maxLength value="255"/>
+          </s:restriction>
+        </s:simpleType>
+      </s:element>
+      <s:element minOccurs="0" name="goldenRecord" type="tns:testDict">
+        <s:annotation>
+          <s:documentation>Golden record link</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="mdmId" type="s:long">
+        <s:annotation>
+          <s:documentation>Object Id (read-only)</s:documentation>
+        </s:annotation>
+      </s:element>
+      <s:element minOccurs="0" name="name">
+        <s:annotation>
+          <s:documentation>Display name</s:documentation>
+        </s:annotation>
+        <s:simpleType>
+          <s:restriction base="s:string">
+            <s:maxLength value="10000"/>
+          </s:restriction>
+        </s:simpleType>
+      </s:element>
+    </s:sequence>
+  </s:complexType>
+<s:element name="entityRecordCheckRequest" type="__tns:EntityRecordCheckRequest"/>
+<s:element name="entityRecordAddRequest" type="__tns:EntityRecordAddRequest"/>
+<s:element name="entityRecordLinkRequest" type="__tns:EntityRecordLinkRequest"/>
+<s:element name="entityRecordModifyRequest" type="__tns:EntityRecordModifyRequest"/>
+<s:element name="entityRecordDeleteRequest" type="__tns:EntityRecordDeleteRequest"/>
+<s:element name="entityRecordsListRequest" type="__tns:EntityRecordsListRequest"/>
+<s:element name="entityRecordGetRequest" type="__tns:EntityRecordGetRequest"/>
+<s:element name="entityRecordCheckResponse" type="__tns:EntityRecordCheckResponse"/>
+<s:element name="entityRecordAddResponse" type="__tns:EntityRecordAddResponse"/>
+<s:element name="entityRecordLinkResponse" type="__tns:EntityRecordLinkResponse"/>
+<s:element name="entityRecordModifyResponse" type="__tns:EntityRecordModifyResponse"/>
+<s:element name="entityRecordDeleteResponse" type="__tns:EntityRecordDeleteResponse"/>
+<s:element name="entityRecordGetResponse" type="__tns:EntityRecordGetResponse"/>
+<s:element name="entityRecordsListResponse" type="__tns:EntityRecordsListResponse"/>
+</s:schema>
+</wsdl:types>
+<wsdl:message name="entityRecordCheckSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordCheckRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordCheckSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordCheckResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordAddSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordAddRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordAddSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordAddResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordLinkSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordLinkRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordLinkSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordLinkResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordModifySoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordModifyRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordModifySoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordModifyResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordDeleteSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordDeleteRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordDeleteSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordDeleteResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordGetSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordGetRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordGetSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordGetResponse"/>
+</wsdl:message>
+<wsdl:message name="entityRecordsListSoapIn">
+<wsdl:part name="parameters" element="ns:entityRecordsListRequest"/>
+</wsdl:message>
+<wsdl:message name="entityRecordsListSoapOut">
+<wsdl:part name="parameters" element="ns:entityRecordsListResponse"/>
+</wsdl:message>
+<wsdl:portType name="WebServiceSoap">
+<wsdl:operation name="entityRecordCheck">
+<wsdl:input message="tns:entityRecordCheckSoapIn"/>
+<wsdl:output message="tns:entityRecordCheckSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordAdd">
+<wsdl:input message="tns:entityRecordAddSoapIn"/>
+<wsdl:output message="tns:entityRecordAddSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordLink">
+<wsdl:input message="tns:entityRecordLinkSoapIn"/>
+<wsdl:output message="tns:entityRecordLinkSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordModify">
+<wsdl:input message="tns:entityRecordModifySoapIn"/>
+<wsdl:output message="tns:entityRecordModifySoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordDelete">
+<wsdl:input message="tns:entityRecordDeleteSoapIn"/>
+<wsdl:output message="tns:entityRecordDeleteSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordGet">
+<wsdl:input message="tns:entityRecordGetSoapIn"/>
+<wsdl:output message="tns:entityRecordGetSoapOut"/>
+</wsdl:operation>
+<wsdl:operation name="entityRecordsList">
+<wsdl:input message="tns:entityRecordsListSoapIn"/>
+<wsdl:output message="tns:entityRecordsListSoapOut"/>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="entityRecordCheck">
+<soap:operation soapAction="entityRecordCheck" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordAdd">
+<soap:operation soapAction="entityRecordAdd" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordLink">
+<soap:operation soapAction="entityRecordLink" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordModify">
+<soap:operation soapAction="entityRecordModify" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordDelete">
+<soap:operation soapAction="entityRecordDelete" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordGet">
+<soap:operation soapAction="entityRecordGet" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="entityRecordsList">
+<soap:operation soapAction="entityRecordsList" style="document"/>
+<wsdl:input>
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output>
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="WebService">
+<wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+<soap:address location="http://test.iris.kanosoftware.net:88/csp/mdm/mdm.ens.integration.soap.BaseService.cls/sugar.model.testDict"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,19 @@
+ROUTINE MDM.WS.EJ.WebServiceSoap.1 [Type=INT,Generated]
+ ;MDM.WS.EJ.WebServiceSoap.1
+ ;Generated for class MDM.WS.EJ.WebServiceSoap.  Do NOT edit. 09/09/2020 01:43:31PM
+ ;;304A5731;MDM.WS.EJ.WebServiceSoap
+ ;
+zentityRecordAdd(systemGUID,initSystemRecordId,payload,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordAdd","entityRecordAddRequest").Invoke($this,"entityRecordAdd",.systemGUID,.initSystemRecordId,.payload,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordCheck(systemGUID,payload,statusText,hasDuplicates,payloadList) public {
+ Quit ..WebMethod("entityRecordCheck","entityRecordCheckRequest").Invoke($this,"entityRecordCheck",.systemGUID,.payload,.statusText,.hasDuplicates,.payloadList) }
+zentityRecordDelete(systemGUID,initSystemRecordId,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordDelete","entityRecordDeleteRequest").Invoke($this,"entityRecordDelete",.systemGUID,.initSystemRecordId,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordGet(systemGUID,initSystemRecordId,mdmRecordId,isAsync,statusText,requestGUID,payload) public {
+ Quit ..WebMethod("entityRecordGet","entityRecordGetRequest").Invoke($this,"entityRecordGet",.systemGUID,.initSystemRecordId,.mdmRecordId,.isAsync,.statusText,.requestGUID,.payload) }
+zentityRecordLink(systemGUID,initSystemRecordId,mdmRecordId,isAsync,statusText) public {
+ Quit ..WebMethod("entityRecordLink","entityRecordLinkRequest").Invoke($this,"entityRecordLink",.systemGUID,.initSystemRecordId,.mdmRecordId,.isAsync,.statusText) }
+zentityRecordModify(systemGUID,initSystemRecordId,payload,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordModify","entityRecordModifyRequest").Invoke($this,"entityRecordModify",.systemGUID,.initSystemRecordId,.payload,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordsList(systemGUID,isAsync,statusText,requestGUID,ts,query,payloadList) public {
+ Quit ..WebMethod("entityRecordsList","entityRecordsListRequest").Invoke($this,"entityRecordsList",.systemGUID,.isAsync,.statusText,.requestGUID,.ts,.query,.payloadList) }

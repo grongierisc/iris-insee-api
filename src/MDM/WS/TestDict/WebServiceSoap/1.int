@@ -1,0 +1,19 @@
+ROUTINE MDM.WS.TestDict.WebServiceSoap.1 [Type=INT,Generated]
+ ;MDM.WS.TestDict.WebServiceSoap.1
+ ;Generated for class MDM.WS.TestDict.WebServiceSoap.  Do NOT edit. 09/09/2020 08:29:11AM
+ ;;4F593336;MDM.WS.TestDict.WebServiceSoap
+ ;
+zentityRecordAdd(systemGUID,initSystemRecordId,payload,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordAdd","entityRecordAddRequest").Invoke($this,"entityRecordAdd",.systemGUID,.initSystemRecordId,.payload,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordCheck(systemGUID,payload,payloadList) public {
+ Quit ..WebMethod("entityRecordCheck","entityRecordCheckRequest").Invoke($this,"entityRecordCheck",.systemGUID,.payload,.payloadList) }
+zentityRecordDelete(systemGUID,initSystemRecordId,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordDelete","entityRecordDeleteRequest").Invoke($this,"entityRecordDelete",.systemGUID,.initSystemRecordId,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordGet(systemGUID,initSystemRecordId,mdmRecordId,isAsync,statusText,requestGUID,payload) public {
+ Quit ..WebMethod("entityRecordGet","entityRecordGetRequest").Invoke($this,"entityRecordGet",.systemGUID,.initSystemRecordId,.mdmRecordId,.isAsync,.statusText,.requestGUID,.payload) }
+zentityRecordLink(systemGUID,initSystemRecordId,mdmRecordId,isAsync,statusText) public {
+ Quit ..WebMethod("entityRecordLink","entityRecordLinkRequest").Invoke($this,"entityRecordLink",.systemGUID,.initSystemRecordId,.mdmRecordId,.isAsync,.statusText) }
+zentityRecordModify(systemGUID,initSystemRecordId,payload,statusText,requestGUID,mdmRecordId) public {
+ Quit ..WebMethod("entityRecordModify","entityRecordModifyRequest").Invoke($this,"entityRecordModify",.systemGUID,.initSystemRecordId,.payload,.statusText,.requestGUID,.mdmRecordId) }
+zentityRecordsList(systemGUID,isAsync,statusText,requestGUID,ts,query,payloadList) public {
+ Quit ..WebMethod("entityRecordsList","entityRecordsListRequest").Invoke($this,"entityRecordsList",.systemGUID,.isAsync,.statusText,.requestGUID,.ts,.query,.payloadList) }

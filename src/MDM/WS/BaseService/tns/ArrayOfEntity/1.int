@@ -1,0 +1,464 @@
+ROUTINE MDM.WS.BaseService.tns.ArrayOfEntity.1 [Type=INT,Generated]
+ ;MDM.WS.BaseService.tns.ArrayOfEntity.1
+ ;Generated for class MDM.WS.BaseService.tns.ArrayOfEntity.  Do NOT edit. 09/09/2020 08:26:58AM
+ ;;51336A33;MDM.WS.BaseService.tns.ArrayOfEntity
+ ;
+%BindExport(dev,Seen,RegisterOref,AllowedDepth,AllowedCapacity) public {
+   i $d(Seen(+$this)) q 1
+   Set Seen(+$this)=$this
+   s sc = 1
+ s proporef=..Entity
+   d:RegisterOref InitObjVar^%SYS.BINDSRV($this)
+   i dev'="" s t=$io u dev i $zobjexport($this_"",3)+$zobjexport($this."%%OID",3)+$zobjexport($this,3)!1 u t
+ If AllowedDepth>0 Set AllowedDepth = AllowedDepth - 1
+ If AllowedCapacity>0 Set AllowedCapacity = AllowedCapacity - 1/1
+ s proporef=..Entity
+       i proporef'="" d
+  . s idx="" i proporef'="" f  s elemoref=proporef.GetNext(.idx) q:idx=""  s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=elemoref.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc)
+  q:('sc) sc
+       i proporef'="",dev'="" s t=$io u dev i $zobjexport(proporef_"",3)+$zobjexport(proporef."%%OID",3)+$zobjexport(proporef,3)!1 u t
+       if proporef'="",dev'="" d
+       . s t=$io u dev i $zobjexport(3_"",3)!1 u t
+       . s t=$io u dev i $zobjexport(proporef.Count()_"",3)!1 u t
+     . for i=1:1:proporef.Count()  s t=$io u dev i $zobjexport(proporef.GetAt(i)_"",3)!1 u t
+   Quit sc }
+%Construct(initvalue) public {
+	Set m%Entity=0,M%Entity=0
+	Quit 1 }
+%ConstructCloneInit(object,deep=0,cloned,location) public {
+	Set i%Entity="",r%Entity=""
+	Set i%"%%OID"=""
+	If deep>0 {
+		Set key="" For  Set value=..Entity.GetNext(.key) Quit:key=""  Set r%Entity(key)=$select(value="":"",1:value.%ConstructClone(1,.cloned)),i%Entity(key)=""
+	}
+	Quit 1 }
+%Destruct() public {
+	If $isobject($get(r%Entity))=1,$zobjcnt(r%Entity)>1 Do r%Entity.%Disconnect()
+	Quit 1 }
+%GetSerial(force=0)
+	New %s1,ptr,val
+	Set %s1="",ptr="" For { Set ptr=$order(i%Entity(ptr),1,val) Quit:ptr=""  Set %s1=%s1_$lb(val) }
+	i %s1="" Quit ""
+	Quit $lb(%s1)
+%GetSwizzleObject(force=0,oid) public {
+	Set $ZTrap="%GetSwizzleObjectERR"
+	New %objTX If '$data(%objTX2) New %objTX2 Set %objTX2=1
+	If $get(%objTX2(+$this)) Set sc=..%BuildObjectGraph(1) Quit:('sc) sc Set intRef=+$this,objValue=$get(%objTX(1,+$g(%objTX(0,intRef)),1)),sc=..%SerializeObject(.objValue,1) Set:(''sc) %objTX(1,%objTX(0,intRef),1)=objValue Set oid=objValue Quit sc
+	Set related  = $select(force=2:1,1:0), oid = ""
+	Set traninit=0 If +$g(%objtxSTATUS)=0 {
+		Set traninit=1 Kill %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxMODIFIED
+		If '$zu(115,9) { Set %objtxSTATUS=1 } Else { Set %objtxSTATUS=2,%objtxLIST(+$this)="" TStart }
+	}
+	Set sc=..%BuildObjectGraph(related+2) Quit:('sc) sc
+	Set %objTX2(+$this)=1
+	If '$data(%objTX(11,+$this)) { Set %objTX(2,$i(%objTX(2)))=$lb(+$this,2),%objTX(11,+$this)=%objTX(2) }
+	Set %objTX(3)=0,i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intRef=$li(data) If '$data(%objTX(1,+$g(%objTX(0,intRef)),2)) Set %objTX(3,$increment(%objTX(3)))=%objTX(1,%objTX(0,intRef)) Kill %objTX(2,i),%objTX(11,intRef)
+	For  Quit:%objTX(3)<1  Set ptr=%objTX(3),objRef=%objTX(3,ptr),%objTX(3)=%objTX(3)-1 Kill %objTX(3,ptr) Set intRef=+objRef,objValue=$get(%objTX(1,+$g(%objTX(0,intRef)),1)),sc=objRef.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,intRef),1)=objValue Kill %objTX(1,%objTX(0,intRef),3) Do $system.CLS.SetModified(objRef,0)
+	. If ('sc) Kill:$g(%objtxSTATUS)=2 %objtxLIST(+objRef),%objtxMODIFIED(+objRef) ZTrap "SG"
+	. If $g(%objtxSTATUS)=2,objRef.%IsModified() Set %objtxMODIFIED(+objRef)=$system.CLS.GetModifiedBits(objRef)
+	. Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,+objRef),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,+objRef),3,intSucc),%objTX(1,intSucc,2,%objTX(0,+objRef)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	For  Set pserial=0 Do  Quit:'pserial
+	. Set i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intPred="",intRef=$li(data) For  Set intPred=$order(%objTX(1,%objTX(0,intRef),2,intPred)) Quit:intPred=""  If $get(%objTX(1,intPred,6))=1 Set objValue=$get(%objTX(1,intPred,1)),sc=(%objTX(1,intPred)).%SerializeObject(.objValue,1) If (''sc) Set pserial=1,%objTX(1,intPred,1)=objValue Do
+	. . Set intSucc="" For  Set intSucc=$order(%objTX(1,intPred,3,intSucc)) Quit:intSucc=""  Kill %objTX(1,intPred,3,intSucc),%objTX(1,intSucc,2,intPred) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,%objTX(1,intSucc))) %objTX(2,%objTX(11,%objTX(1,intSucc))),%objTX(11,%objTX(1,intSucc))
+	. . For  Quit:%objTX(3)<1  Set ptr=%objTX(3),objSerialize=%objTX(3,ptr),%objTX(3)=%objTX(3)-1 Kill %objTX(3,ptr) Set intSerialize=+objSerialize,objValue=$get(%objTX(1,+$g(%objTX(0,intSerialize)),1)),sc=objSerialize.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,intSerialize),1)=objValue Kill %objTX(1,%objTX(0,intSerialize),3) Do $system.CLS.SetModified(objSerialize,0)
+	. . . If ('sc) Kill:$g(%objtxSTATUS)=2 %objtxLIST(+objSerialize),%objtxMODIFIED(+objSerialize) ZTrap "SG"
+	. . . If $g(%objtxSTATUS)=2,objSerialize.%IsModified() Set %objtxMODIFIED(+objSerialize)=$system.CLS.GetModifiedBits(objSerialize)
+	. . . Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,intSerialize),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,intSerialize),3,intSucc),%objTX(1,intSucc,2,%objTX(0,intSerialize)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	If $data(%objTX(2))>2 Set sc=$$Error^%apiOBJ(5827,$classname()) ZTrap "SG"
+	Set cmd="" For  Set cmd=$order(%objTX(9,cmd)) Quit:cmd=""  Xecute cmd
+%GetSwizzleObjectCOMMIT	If traninit {
+		If $g(%objtxSTATUS)=1 { Kill %objtxSTATUS } Else { TCommit  Kill %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxMODIFIED }
+	}
+	Set oid = $get(%objTX(1,%objTX(0,+$this),1))
+	If $listget(oid) = "" Set oid = ""
+	Set %objTX2(+$this)=0
+	Quit sc
+%GetSwizzleObjectERR	Set $ZTrap="" If $extract($ZError,1,5)'="<ZSG>" Set sc=$$Error^%apiOBJ(5002,$ZE)
+	Set:traninit sc=$select(+sc:$$%TRollBack^%occTransaction(),1:$$AppendStatus^%occSystem(sc,$$%TRollBack^%occTransaction()))
+	Set %objTX2(+$this)=0
+	Quit sc }
+%IsNull()
+	i (..Entity.Count()>0) Quit 0
+	Quit 1
+%LoadInit(oid) public {
+	Set i%"%%OID"=oid,r%Entity=""
+	Quit 1 }
+%ObjectIsNull(pOID) public {
+	If $isobject(pOID)=1 Set pOID=pOID."%%OID"
+	if pOID = "" quit 1
+	set class = $listget(pOID,2)
+	if class '= "" {
+		set class=$s(class="":"",class[".":class,$e(class)'="%":"User."_class,1:"%Library."_$e(class,2,*)) if $classname()'=class quit $classmethod(class,"%ObjectIsNull",pOID)
+	}
+	quit $listget(pOID)="" }
+%ObjectModified() public {
+	If $system.CLS.GetModified() Quit 1
+	Set tModified=0,tKey="" For { Set tKey=$order(r%Entity(tKey),1,tOref) Quit:tKey=""  If (tOref '= "") && (tOref.%ObjectModified()) { Set tModified = 1 Quit } } Quit:tModified 1
+	Quit 0 }
+%SerializeObject(serial,partial=0) public {
+	try {
+		Set sc=..%ValidateObject(,0) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set sc=..%NormalizeObject() Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set key="" For { Set key=$order(r%Entity(key),1,cref) Quit:key=""  If cref'="" { If ('$data(%objTX(0,+cref))) { Set sc=cref.%GetSwizzleObject(1,.eoid) If (''sc) { Set cidx=$i(%objTX(1)),%objTX(0,+cref)=cidx,%objTX(1,cidx)=cref,%objTX(1,cidx,1)=eoid,%objTX(1,cidx,6)=2} Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt(sc) } } Set M%Entity=1,i%Entity(key)=$select(%objTX(1,%objTX(0,+cref),1)="":"",1:$listbuild($listget(%objTX(1,%objTX(0,+cref),1)))_$select($listget(%objTX(1,%objTX(0,+cref),1),3)'="":$listbuild(,$list(%objTX(1,%objTX(0,+cref),1),3)),1:"")) } }
+		Set serial=..%GetSerial(0),class=$classname(),class=$s($l(class,".")=2:$s($e(class,1,9)="%Library.":"%"_$p(class,".",2),1:class),1:class),serial=$select(serial="":"",1:$listbuild(serial_"",class)),i%"%%OID"=serial
+		set sc=1
+	}
+	catch tException {
+		set sc = tException.AsStatus()
+	}
+	Quit sc }
+%AddToSaveSet(depth=3,refresh=0) public {
+	If $data(%objTX(0,+$this)) && ('refresh) Quit 1
+	Set sc=1,intOref=+$this
+	If refresh,$data(%objTX(0,intOref),index) Set intPoref="" For  Set intPoref=$order(%objTX(1,index,2,intPoref)) Quit:intPoref=""  Kill %objTX(1,%objTX(0,intPoref),3,index),%objTX(1,index,2,%objTX(0,intPoref))
+	Set %objTX(0,intOref)=$i(%objTX(1)),%objTX(1,%objTX(1))=$this,%objTX(1,%objTX(1),1)="",%objTX(7,%objTX(1))=$lb(intOref,2)
+	Set key=""
+	For  {
+		Set key=$order(r%Entity(key),1,Poref) Quit:key=""
+		If $isobject(Poref)=1 Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,3,$listget(i%Entity(key)))
+	}
+exit	Quit sc }
+%SetSerial(val) public {
+	If val="" {
+		Set i%Entity=""
+	} Else {
+		New %s1,%s1
+		Set %s1=$lg(val,1)
+		Set ptr=0,index=0
+		While $listnext(%s1,ptr,element) {
+			Set index=index+1,i%Entity(index)=element
+		}
+	}
+	Quit 1 }
+zLogicalToOdbc(val="") public {
+	Quit $listget(val,1) }
+zOdbcToLogical(val="") public {
+	Quit $lb($piece(val,",",1)) }
+zXMLDTD(top,format,input,dtdlist)
+ Quit ##class(%XML.Implementation).XMLDTD("MDM.WS.BaseService.tns.ArrayOfEntity",.top,.format,.input,.dtdlist)
+zXMLExportInternal()
+ New tag,summary,attrsVal,savelocal,aval,k,tmpPrefix,prefixDepth,hasNoContent,hasElement,topAttrs,beginprefix,endprefix,savexsiAttrs,initialxsiAttrs,initlist,initialCR,inlineFlag,popAtEnd,saveTopPrefix,saveTypesPrefix,saveAttrsPrefix,saveUsePrefix,initlist
+ Set $ztrap="XMLExportInternalTrap",popAtEnd=0
+ Set summary=summaryArg,initialxsiAttrs=xsiAttrs
+ If group Quit $$Error^%apiOBJ(6386,"MDM.WS.BaseService.tns.ArrayOfEntity")
+ If indentFlag Set initialCR=($extract(currentIndent,1,2)=$c(13,10))
+ Set id=createId
+ Set temp=""
+ If id'="" {
+   If $piece($get(idlist(+$this)),",",2)'="" Quit 1
+   Set idlist(+$this)=id_",1"
+ }
+ If encoded Set initlist=$lb($get(oreflist),inlineFlagArg),oreflist=1,inlineFlag=inlineFlagArg
+ Set tag=$get(topArg)
+ Set tmpi=(($get(typeAttr)'="")&&(typeAttr'="MDM.WS.BaseService.tns.ArrayOfEntity"))
+ If $IsObject(namespaces) {
+   If namespaces.Stable,namespaces.CurrentNamespace="http://kanosoftware.com/soap",'tmpi||(typesPrefix'="") {
+     Set topAttrs=""
+   } Else {
+     Set popAtEnd=1,saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+     Set sc=namespaces.PushNodeForExport("http://kanosoftware.com/soap",$get(local,0),(encoded||tmpi),1,,.topPrefix,.topAttrs,.typesPrefix,.attrsPrefix,.usePrefix)
+     If 'sc Quit sc
+   }
+   Set beginprefix=$select(usePrefix:typesPrefix,1:"")
+   If topAttrs'="" Set temp=temp_" "_topAttrs
+   If tag="" Set tag="ArrayOfEntity"
+   Set xsitype=namespaces.OutputTypeAttribute
+ } Else {
+   Set saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+   Set typesPrefix=namespaces If (typesPrefix'=""),($extract(typesPrefix,*)'=":") Set typesPrefix=typesPrefix_":"
+   If 'encoded Set namespaces=""
+   Set (topPrefix,attrsPrefix,topAttrs,beginprefix)=""
+   If tag="" Set tag=typesPrefix_"ArrayOfEntity"
+   Set xsitype=0
+ }
+ Set local=+$get(local),savelocal=local
+ Set endprefix="</"_beginprefix,beginprefix="<"_beginprefix
+ If tmpi Set temp=temp_" "_xsiPrefix_"type="""_typesPrefix_"ArrayOfEntity"""_xsiAttrs,xsiAttrs=""
+   If id'="" Set temp=" "_$select($get(soap12):soapPrefix_"id",1:"id")_"=""id"_id_""""_temp
+ If encoded Set temp=temp_xsiAttrs,xsiAttrs=""
+ If indentFlag Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } Set currentIndent=$select(initialCR:"",1:$c(13,10))_currentIndent_indentChars
+ If tag[":" Set topPrefix=$piece(tag,":"),tag=$piece(tag,":",2)  If topPrefix'="" Set topPrefix=topPrefix_":"
+ Set %xmlmsg="<"_topPrefix_tag_temp if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set attrsVal=attrsArg,attrsArg="" Set %xmlmsg=attrsVal if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set %xmlmsg=">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set aval=..Entity
+ Set k="" Set val=aval.GetNext(.k) If k'="" {
+   If encoded {
+     If indentFlag Set %xmlmsg=currentIndent Set currentIndent=currentIndent_indentChars if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+     Set temp="",temp1=$parameter("MDM.WS.BaseService.tns.Entity","NAMESPACE")
+     Set temp1=$select((temp1'="http://kanosoftware.com/soap")&&$IsObject(namespaces):namespaces.GetNamespacePrefix(temp1,.temp),1:typesPrefix)
+     If soap12 { Set %xmlmsg=beginprefix_"Entity"_$select(xsitype:"",1:" "_soapPrefix_"itemType="""_temp1_$select($parameter("MDM.WS.BaseService.tns.Entity","XMLSUMMARY")'="":"s_Entity",1:"Entity")_"""")_" "_soapPrefix_"arraySize="""_aval.Count()_""""_""_temp_">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+     } Else { Set %xmlmsg=beginprefix_"Entity "_$select(xsitype:xsiPrefix_"type="""_soapPrefix_"Array""",1:soapPrefix_"arrayType="""_temp1_$select($parameter("MDM.WS.BaseService.tns.Entity","XMLSUMMARY")'="":"s_Entity",1:"Entity")_"["_aval.Count()_"]""")_""_temp_">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } }
+   }
+   While k'="" {
+     If 'val.XMLIsObjectEmpty(ignoreNull) {
+       Set topArg="Entity",summaryArg=1,group=0,createId="",typeAttr=$select(encoded||xsitype:"*",1:"MDM.WS.BaseService.tns.Entity"),local=1,savexsiAttrs=xsiAttrs
+       Set sc=val.XMLExportInternal() Goto:'sc XMLExportExit Set xsiAttrs=savexsiAttrs
+     } Else {
+       Set %xmlmsg=currentIndent_beginprefix_"Entity "_xsiPrefix_"nil=""true"""_xsiAttrs_"/>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+     }
+     Set val=aval.GetNext(.k)
+   }
+   If encoded {
+     If indentFlag Set currentIndent=$extract(currentIndent,1,*-$length(indentChars)) Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+     Set %xmlmsg=endprefix_"Entity>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+   }
+ }
+ If indentFlag { Set currentIndent=$extract(currentIndent,1,*-$length(indentChars)) Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }}
+ Set %xmlmsg="</"_topPrefix_tag_">"
+ if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } If indentFlag,'initialCR if $data(%xmlBlock) { Set %xmlmsg="" Do xeWriteLine^%occXMLInternal } else { write ! } Set $extract(currentIndent,1,2)=""
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ If encoded Set oreflist=$list(initlist),inlineFlag=$list(initlist,2)
+ Quit sc
+XMLExportInternalTrap Set $ztrap=""
+ If $data(val) , $IsObject(val) , ($piece($ze,">",1)="<METHOD DOES NOT EXIST") {
+   Set sc=$$Error^%apiOBJ(6249,$classname(val))
+ } Else {
+   Set sc=$$Error^%apiOBJ(5002,$ze)
+ }
+XMLExportExit 
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ Quit sc
+zXMLGetSchemaImports(imports,classes)
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("MDM.WS.BaseService.tns.ArrayOfEntity",.imports,.classes)
+zXMLImportAttributes()
+ ;
+ Quit 1
+XMLImportAttrErr Quit $$Error^%apiOBJ(6260,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportFixedAttrErr Quit $$Error^%apiOBJ(6320,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportAttrLocation(nodelist) new msg,loc
+ Set loc=$lb($zlascii(nodelist,21),$zlascii(nodelist,25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+zXMLImportInternal()
+ New child,childlist,node,nodelist,inner,innerlist,data,encodedArray,key,nsIndex,savechild,savechildlist,saveinner,saveinnnerlist,exists
+ Set $ztrap="XMLImportInternalTrap"
+ Set encoded=$case($piece(fmt,",",1),"":0,"literal":0,"encoded":1,"encoded12":1,:"")
+ If encoded="" Quit $$Error^%apiOBJ(6231,fmt)
+ Set nsIndex=$get(@(tree)@("N","http://kanosoftware.com/soap"))
+ Set node=nodeArg,nodelist=nodeArgChildlist
+ If tag'=@(tree)@("d",$zlascii(nodelist,9)) Set inner=node Goto XMLImportMalformed
+ If bareProjection Quit $$Error^%apiOBJ(6386,"MDM.WS.BaseService.tns.ArrayOfEntity")
+ If encoded {
+   Do XMLImportAttrnode() If $data(attributeList("id")) Set idlist(node)=$this
+ }
+ If $zboolean(+($zlascii(nodelist,13)#16),+1,1) Quit 1
+ Set sc=$$XMLImportElements()
+XMLImportExit Quit sc
+XMLImportElements() ;
+ If $$XMLLOOP1()'=0 Quit sc
+ For  { Set encodedArray=encoded
+ If tag="Entity" {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else {
+     If 'sc Goto XMLImportExit
+     If encoded Do XMLImportAttrchild()
+     If encoded,(($data(attributeList("arrayType")))||(($zwascii($get(attributeList("type")),9)=1)&&($piece($case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))),":",2)="Array"))||($get(@(tree)@("n",$zwascii($get(attributeList("itemType")),9)))="http://www.w3.org/2003/05/soap-encoding")||($get(@(tree)@("n",$zwascii($get(attributeList("nodeType")),9)))="http://www.w3.org/2003/05/soap-encoding")||($get(@(tree)@("n",$zwascii($get(attributeList("arraySize")),9)))="http://www.w3.org/2003/05/soap-encoding")) {
+       Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set inner=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set inner=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,inner,.descriptor) } Else { Set inner="" }} For { Quit:inner=""  Quit:(descriptor#16)'=2  Set descriptor=$piece(inner,",",2)+4 Set inner=$piece(inner,",",1)_","_descriptor Set descriptor=$zlascii(childlist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set inner=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,inner,.descriptor) } Else {Set inner="" }} }
+       While inner'="" {
+         If (descriptor#16)'=2 {
+           Set innerlist=@(tree)@((descriptor\16))
+         If '$case($zwascii(innerlist,19),0:1,nsIndex:1,:0) Goto XMLImportNS
+         Set saveinner=inner,saveinnerlist=innerlist
+         If $$XMLImportId() {
+           Set data=idlist(inner)
+         } Else {
+           If 'sc Goto XMLImportExit
+           Do XMLImportAttrinner()
+           Set class=$select(($zwascii($get(attributeList("type")),9)=1):$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))),1:"")
+           If (class="") || (class="Entity") {
+             Set class="MDM.WS.BaseService.tns.Entity"
+           } Else {
+             If $length(class,":")=2 Set class=$piece(class,":",2)
+             Set class=$get(^oddCOM("MDM.WS.BaseService.tns.Entity",85,"s",class))_$get(^oddXML("MDM.WS.BaseService.tns.Entity","s",class)) If class="" Set class=0
+             Set tmp=$get(@(tree)@("n",$zwascii(attributeList("type"),11)))
+             If (class=0)||(($listlength(class)>1)&&(tmp="")) Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadType
+             If $listlength(class)>1 {
+               For tmpi=1:1:$listlength(class) {
+                 If tmp=$parameter($list(class,tmpi),"NAMESPACE") Set class=$list(class,tmpi),tmpi=0 Quit
+               }
+               If tmpi Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadType
+             } Else { Set class=$list(class) }
+           }
+           Set data=$classmethod(class,"XMLNew",handler,inner,$this)
+           If $isobject(data) Set tag=@(tree)@("d",$zlascii(innerlist,9)),nodeArg=inner,nodeArgChildlist=innerlist,bareProjection=0,summaryArg=1,keynameattr="",sc=data.XMLImportInternal() Goto:('sc) XMLImportExit
+           Do XMLImportAttrinner() If $data(attributeList("id")) Set idlist(inner)=data
+         }
+         Set inner=saveinner,innerlist=saveinnerlist
+         If data'="" Do ..Entity.Insert(data)
+         }
+         For  { Set descriptor=$piece(inner,",",2)+4 Set inner=$piece(inner,",",1)_","_descriptor Set descriptor=$zlascii(childlist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set inner=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,inner,.descriptor) } Else {Set inner="" }} Quit:inner=""  Quit:(descriptor#16)'=2  }
+       }
+       Quit:('sc)
+     } Else { Set encodedArray=0
+         If 'encoded,(@(tree)@("d",$zlascii(childlist,9))'="Entity") Goto XMLImportBadTagchild
+         If '$case($zwascii(childlist,19),0:1,nsIndex:1,:0) Goto XMLImportNSchild
+         If encoded Set savechild=child,savechildlist=childlist
+         If encoded,$$XMLImportIdChild() {
+           Set data=idlist(child)
+         } Else {
+           If 'sc Goto XMLImportExit
+           Do XMLImportAttrchild()
+           Set class=$select(($zwascii($get(attributeList("type")),9)=1):$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))),1:"")
+           If (class="") || (class="Entity") {
+             Set class="MDM.WS.BaseService.tns.Entity"
+           } Else {
+             If $length(class,":")=2 Set class=$piece(class,":",2)
+             Set class=$get(^oddCOM("MDM.WS.BaseService.tns.Entity",85,"s",class))_$get(^oddXML("MDM.WS.BaseService.tns.Entity","s",class)) If class="" Set class=0
+             Set tmp=$get(@(tree)@("n",$zwascii(attributeList("type"),11)))
+             If (class=0)||(($listlength(class)>1)&&(tmp="")) Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+             If $listlength(class)>1 {
+               For tmpi=1:1:$listlength(class) {
+                 If tmp=$parameter($list(class,tmpi),"NAMESPACE") Set class=$list(class,tmpi),tmpi=0 Quit
+               }
+               If tmpi Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+             } Else { Set class=$list(class) }
+           }
+           Set data=$classmethod(class,"XMLNew",handler,child,$this)
+           If $isobject(data) Set tag=@(tree)@("d",$zlascii(childlist,9)),nodeArg=child,nodeArgChildlist=childlist,bareProjection=0,summaryArg=1,keynameattr="",sc=data.XMLImportInternal() Goto:('sc) XMLImportExit
+           If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+         }
+         If encoded Set child=savechild,childlist=savechildlist
+         If data'="" Do ..Entity.Insert(data)
+     }
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   If $$XMLLOOP()'=0 Goto XMLImportExit }
+ Else { Quit  }
+ If encodedArray Quit
+ }
+ Goto XMLImportBadTagchild
+XMLLOOP1() Set descriptor=$zlascii(nodelist,$zwascii(nodelist,17)) Set child=($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)_","_$zwascii(nodelist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else { Set child="" }} For { Quit:child=""  Quit:(descriptor#16)'=2  Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} } Goto XMLLOOP2
+XMLLOOP() For  { Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} Quit:child=""  Quit:(descriptor#16)'=2  }
+XMLLOOP2 If child="" Quit sc
+ If (descriptor#16)'=0 Set inner=child Goto XMLImportMalformedNoTag
+ Set childlist=@(tree)@((descriptor\16))
+ Set tag=@(tree)@("d",$zlascii(childlist,9))
+ Quit 0
+XMLImportBadTagchild Set inner=child
+XMLImportBadTag Quit $$Error^%apiOBJ(6237,tag_$$XMLImportLocation(inner))
+XMLImportBadTypenode Set inner=node Goto XMLImportBadType
+XMLImportBadTypechild Set inner=child
+XMLImportBadType Quit $$Error^%apiOBJ(6277,class,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner))
+XMLImportErrnode Set inner=node Goto XMLImportErr
+XMLImportErrchild Set inner=child
+XMLImportErr
+ Set data=##class(%XML.ImportHandler).GetNextChild(tree,inner,"")
+ If (data'="") {
+   If ($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))#16)'=0 {
+     Quit $$Error^%apiOBJ(6232,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),$extract(@(tree)@("d",($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),1,200))
+   } Else {
+     Quit $$Error^%apiOBJ(6253,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),9)))
+   }
+ } Else {
+   Quit $$Error^%apiOBJ(6252,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner))
+ }
+XMLImportIdErr Set sc=$$Error^%apiOBJ(6236,id,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformed Set sc=$$Error^%apiOBJ(6233,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformedNoTag Set node=$select($piece(inner,",",1)<=0:0,1:$zlascii(@(tree)@($piece(inner,",",1)),1)_","_$zlascii(@(tree)@($piece(inner,",",1)),5)),sc=$$Error^%apiOBJ(6254,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16))),$select(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)))_$$XMLImportLocation(node)) Quit sc
+XMLImportNSchild Set inner=child
+XMLImportNS Set sc=$$Error^%apiOBJ(6235,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportLocation(node) new msg,loc
+ Set loc=$lb($zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),21),$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+XMLImportInternalTrap Set $ztrap=""
+ Set loc=$select($ZE["<CLASS DOES NOT EXIST>":" for element "_tag_$$XMLImportLocation(child),1:"")
+ Quit $$Error^%apiOBJ(5002,$ZE_loc)
+XMLImportIdChild() Set inner=child,innerlist=childlist,tmp=$$XMLImportId(),child=inner,childlist=innerlist Quit tmp
+XMLImportId() ;
+ Do XMLImportAttrinner()
+ If $data(attributeList("href")) {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("href"),13))),1:@(tree)@("d",$zlascii(attributeList("href"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("href")))
+   If $extract(id)="#" {
+     Set tmp=$select($get(@(tree)@("i",$extract(id,2,*)))="":"",1:$piece(@(tree)@("i",$extract(id,2,*)),",",1)_","_$piece(@(tree)@("i",$extract(id,2,*)),",",2)) If tmp="" Goto XMLImportIdErr
+     Set inner=tmp
+     Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+   }
+ } ElseIf $data(attributeList("ref")),($get(@(tree)@("n",$zwascii(attributeList("ref"),9)))="http://www.w3.org/2003/05/soap-encoding") {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("ref"),13))),1:@(tree)@("d",$zlascii(attributeList("ref"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("ref")))
+   Set tmp=$select($get(@(tree)@("i",id))="":"",1:$piece(@(tree)@("i",id),",",1)_","_$piece(@(tree)@("i",id),",",2)) If tmp="" Goto XMLImportIdErr
+   Set inner=tmp
+   Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+ } ElseIf '$data(attributeList("id")) {
+   Quit 0
+ }
+ Quit $data(idlist(inner))
+XMLImportAttrnode()
+ If $get(attributeList)=node Quit
+ Kill attributeList
+ Set attributeList=node
+ Set offset=29 While offset<$zwascii(nodelist,17) { Set attribute=$extract(nodelist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrchild()
+ If $get(attributeList)=child Quit
+ Kill attributeList
+ Set attributeList=child
+ Set offset=29 While offset<$zwascii(childlist,17) { Set attribute=$extract(childlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrinner()
+ If $get(attributeList)=inner Quit
+ Kill attributeList
+ Set attributeList=inner
+ Set offset=29 While offset<$zwascii(innerlist,17) { Set attribute=$extract(innerlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+zXMLIsObjectEmpty(ignoreNull)
+ If ..Entity.Count()>0 Quit 0
+ Quit 1
+zXMLNew(document,node,containerOref="")
+	Quit (##class(MDM.WS.BaseService.tns.ArrayOfEntity).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema)
+ Quit ##class(%XML.Implementation).XMLSchema("MDM.WS.BaseService.tns.ArrayOfEntity",top,format,namespacePrefix,input,refOnly,.schema)
+zEntityBuildValueArray(value,array) public {
+	Quit ##class(%Collection.ListOfObj).BuildValueArray(value,.array)
+}
+zEntityCollectionToDisplay(val="",delim="") public {
+	Quit ##class(%Collection.ListOfObj).LogicalToOdbc(val,$select(delim="":$C(13,10),1:delim))
+}
+zEntityCollectionToOdbc(val="") public {
+	Quit ##class(%Collection.ListOfObj).LogicalToOdbc(val,",")
+}
+zEntityDisplayToCollection(val="",delim="") public {
+	Quit ##class(%Collection.ListOfObj).OdbcToLogical(val,$select(delim="":$C(13,10),1:delim))
+}
+zEntityGetObject(force=0) public {
+	Set id=..Entity.Serialize(force)
+	Quit $select(id="":"",1:$listbuild(id_"")) }
+zEntityGetObjectId(force=0) public {
+	Quit $listget(..EntityGetObject(force)) }
+zEntityGetSwizzled(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfObj).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Entity=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="MDM.WS.BaseService.tns.Entity",oref.ElementClassType="serial",oref.Owner=+$this,oref.Storage=$this."Entity%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+zEntityOdbcToCollection(val="") public {
+	Quit ##class(%Collection.ListOfObj).OdbcToLogical(val,",")
+}
+zEntitySet(newvalue) public {
+	If '$isobject(newvalue),newvalue'="" Quit $$Error^%apiOBJ(5807,newvalue)
+	If r%Entity=newvalue Quit 1
+	If newvalue="" Kill i%Entity,r%Entity Set i%Entity="",r%Entity="" Quit 1
+	Set oref=r%Entity Kill i%Entity,r%Entity Set i%Entity="",r%Entity=oref
+	Set key="" For i=1:1 Set value=newvalue.GetNext(.key) Quit:key=""  Set r%Entity(i)=value,i%Entity(i)=""
+	Quit 1 }
+zEntitySetObject(newvalue) public {
+	Set sc=..Entity.DeSerialize($listget(newvalue)) If ('sc) Quit sc
+	Quit 1 }
+zEntitySetObjectId(newid) public {
+	Quit ..EntitySetObject($select(newid="":"",1:$listbuild(newid_""))) }
