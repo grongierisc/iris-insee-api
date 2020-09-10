@@ -39,7 +39,7 @@ ClassMethod GenerateClass(name As %String, object As %DynamicObject) As %Status
     Do ..CreateClassDef(name,.classDef)
 
 	// Add super class
-	Set parent="%JSON.Adaptor,%XML.Adaptor,%SerialObject"
+	Set parent="%Persistent,%JSON.Adaptor,%XML.Adaptor"
 	Set classDef.Super=parent
 
     // For each property

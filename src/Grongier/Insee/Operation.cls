@@ -26,8 +26,11 @@ Method GetSirenById(pResquest As Ens.Request, Output pResponse As Ens.StringCont
     Set tURL = tURL_"/siren/"_pResquest.StringValue
 
     $$$ThrowOnError(..Adapter.GetURLInsee(tURL,.tHttpResponse))
-
-    Set pResponse = ##class(Ens.StringContainer).%New({}.%FromJSON(tHttpResponse.Data).%ToJSON())
+    
+    set dyna = {}.%FromJSON(tHttpResponse.Data)
+    $$$LOGINFO(dyna.%ToJSON())
+    Set pResponse = ##class(Grongier.Insee.Msg.GetSirenResponse).%New()
+    $$$ThrowOnError(pResponse.%JSONImport(dyna.%ToJSON()))
 
     Quit $$$OK
 }

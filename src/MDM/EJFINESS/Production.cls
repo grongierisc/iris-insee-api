@@ -22,6 +22,11 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="Charset">utf-8</Setting>
     <Setting Target="Adapter" Name="FilePath">/tmp/mdm/in/</Setting>
   </Item>
+  <Item Name="MDM.EJFINESS.BP.SirenUpdate" Category="" ClassName="MDM.EJFINESS.BP.SirenUpdate" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="Grongier.Insee.Operation" Category="" ClassName="Grongier.Insee.Operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="Credentials">Insee</Setting>
+  </Item>
 </Production>
 }
 

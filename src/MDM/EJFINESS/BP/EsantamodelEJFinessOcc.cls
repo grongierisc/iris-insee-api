@@ -28,9 +28,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </context>
 <sequence xend='200' yend='550' >
 <transform name='DT' class='MDM.EJFINESS.DT.CsvToObj' source='request' target='context.tDT' xpos='200' ypos='250' />
-<code name='set fake initSystemRecordId' xpos='200' ypos='350' >
-<![CDATA[ set context.tDT.initSystemRecordId = ..%Process.OffSet_$i(^i)]]>
-</code>
 <call name='Post WS' target='MDM.EJFINESS.REST.Operation' async='0' xpos='200' ypos='450' >
 <request type='MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccAddRequest' >
 <assign property="callrequest" value="context.tDT" action="set" />

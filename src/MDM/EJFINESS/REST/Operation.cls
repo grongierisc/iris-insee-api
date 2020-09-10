@@ -19,6 +19,40 @@ Method GetStatus(pResquest As MDM.EJFINESS.REST.Msg.StatusRequest, Output pRespo
     Quit $$$OK
 }
 
+Method PutEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As Ens.StringContainer) As %Status
+{
+
+    Set tURL = ..Adapter.URL
+    Set tURL = tURL_"/esanta_model_EJFinessOcc"
+
+    do pResquest.%JSONExportToStream(.stream)
+
+    $$$LOGINFO(stream.Read())
+
+    set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    set tHttpRequest.ContentType = "application/json"
+    Set tHttpRequest.Server=..Adapter.HTTPServer, tHttpRequest.Port=..Adapter.HTTPPort
+    do tHttpRequest.EntityBody.CopyFrom(stream)
+    
+    set sc = tHttpRequest.Send("PUT",tURL)
+    set tHttpResponse = tHttpRequest.HttpResponse
+    
+    
+    If $IsObject(tHttpResponse) {
+    
+        set dyna = {}.%FromJSON(tHttpResponse.Data)
+        if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
+            set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
+        }
+        Else {
+            Set pResponse = ##class(Ens.StringContainer).%New(dyna.%ToJSON())
+        }
+    
+    }
+
+    Return sc
+}
+
 Method PostEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As Ens.StringContainer) As %Status
 {
 
@@ -95,6 +129,9 @@ XData MessageMap
 	</MapItem>
 	<MapItem MessageType="MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccAddRequest"> 
 		<Method>PostEsantamodelEJFinessOcc</Method>
+	</MapItem>
+	<MapItem MessageType="MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccPutRequest"> 
+		<Method>PutEsantamodelEJFinessOcc</Method>
 	</MapItem>
 	<MapItem MessageType="MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetRequest"> 
 		<Method>GetEsantamodelEJFinessOcc</Method>

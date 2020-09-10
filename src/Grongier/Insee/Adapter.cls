@@ -18,7 +18,7 @@ Property HTTPServer As %String(MAXLEN = 1000) [ InitialExpression = "api.insee.f
 Property InseeToken As %String;
 
 /// HTTP Request
-Property %HttpRequest As %Net.HttpRequest;
+Property HttpRequest As %Net.HttpRequest;
 
 Method OnInit() As %Status
 {
@@ -38,8 +38,8 @@ Method OnInit() As %Status
 			Quit
 		}
 
-        Set ..%HttpRequest=##class(%Net.HttpRequest).%New()
-        do ..%HttpRequest.SetHeader("Authorization", "Bearer " _ ..InseeToken)
+        Set ..HttpRequest=##class(%Net.HttpRequest).%New()
+        do ..SetRenewToken()
 		
 		Set tSC=##super()
 		Quit:$$$ISERR(tSC)
@@ -57,55 +57,37 @@ Method GetRenewToken() As %String
     Set oSc = $$$OK
     Set result = ""
 
-    //check if token exist
-    If ..InseeToken'="" {
-        //Revoke
-        Set tURL = "/revoke"
-        Set tURL = tURL_"?token="_..InseeToken
-        $$$ThrowOnError(..PostURL(tURL,.tHttpResponse))
-    }
     Set tURL = "/token"
     Set tURL = tURL_"?grant_type=client_credentials"
     $$$ThrowOnError(..PostURL(tURL,.tHttpResponse))
 
     Set result = {}.%FromJSON(tHttpResponse.Data)."access_token"
-     $$$LOGINFO("New token is : "_result)
+    $$$LOGINFO("New token is : "_result)
     Quit result
 }
 
 Method SetRenewToken() As %Status
 {
-    set ..InseeToken = ..GetRenewToken()
+    do ..HttpRequest.SetHeader("Authorization", "Bearer " _ ..InseeToken)
     quit $$$OK
 }
 
 Method GetURLInsee(pURL As %String, Output pHttpResponse As %Net.HttpResponse, pFormVarNames As %String, pData...) As %Status
 {
-    try {
-        $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"GET",..%HttpRequest,.pFormVarNames,.pData,pURL))
-    }
-    Catch ex {
-        if pHttpResponse.StatusCode = 401 {
-            do ..SetRenewToken()
-            $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"GET",..%HttpRequest,.pFormVarNames,.pData,pURL))
-        }
-    }
+        $$$LOGINFO("token "_..InseeToken)
+        do ..SetRenewToken()
+        $$$LOGINFO("Header "_..HttpRequest.GetHeader("Authorization"))
+        $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"GET",..HttpRequest,.pFormVarNames,.pData,pURL))
+
 
     Quit $$$OK
 }
 
 Method PostURLInsee(pURL As %String, Output pHttpResponse As %Net.HttpResponse, pFormVarNames As %String, pData...) As %Status
 {
-    try {
-        $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"POST",..%HttpRequest,.pFormVarNames,.pData,pURL))
-    }
-    Catch ex {
-        $$$LOGINFO("In catch")
-        if pHttpResponse.StatusCode = 401 {
-            do ..SetRenewToken()
-            $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"POST",..%HttpRequest,.pFormVarNames,.pData,pURL))
-        }
-    }
+        do ..SetRenewToken()
+        $$$ThrowOnError(..SendFormDataArray(.pHttpResponse,"POST",..HttpRequest,.pFormVarNames,.pData,pURL))
+
 
     Quit $$$OK
 }

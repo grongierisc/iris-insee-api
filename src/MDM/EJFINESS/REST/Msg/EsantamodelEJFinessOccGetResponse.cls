@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetResponse Extends (Ens.Request, %JSON.Adaptor)
+Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetResponse Extends (Ens.Response, %JSON.Adaptor)
 {
 
 Parameter JSONIGNOREINVALIDFIELD = 1;
@@ -9,7 +9,7 @@ Property statusText As %VarString;
 
 Property requestGUID As %VarString;
 
-Property payload As MDM.EJFINESS.REST.Msg.Payload;
+Property payload As MDM.EJFINESS.REST.Definition.esantamodelEJFinessOcc;
 
 Storage Default
 {

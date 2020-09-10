@@ -52,6 +52,9 @@ XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 <assign value='source.CodeAPE' property='target.payload.APE.code' action='set' />
 <assign value='source.LibelléAPE' property='target.payload.APE.name' action='set' />
 <assign value='"BA6A079E-EECD-11EA-A221-0242AC110006"' property='target.systemGUID' action='set' />
+<assign value='$i(^i)' property='target.initSystemRecordId' action='set' />
+<assign value='1' property='target.payload.APE.id' action='set' />
+<assign value='1' property='target.payload.jurStatus.id' action='set' />
 </transform>
 }
 
