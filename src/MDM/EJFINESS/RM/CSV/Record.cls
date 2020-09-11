@@ -1,98 +1,92 @@
 /// RECORDMAP: Generated from RecordMap 'MDM.EJFINESS.RM.CSV'
-/// on 2020-09-09 at 14:18:26.769 [2020-09-09 14:18:26.769 UTC]
+/// on 2020-09-11 at 15:57:24.099 [2020-09-11 15:57:24.099 UTC]
 /// by user SuperUser
 Class MDM.EJFINESS.RM.CSV.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base) [ Inheritance = right, ProcedureBlock ]
 {
 
 Parameter INCLUDETOPFIELDS = 1;
 
-Property NuméroFINESSEJ As %VarString;
+Property NuméroFINESSEJ As %String;
 
-Property Raisonsociale As %VarString;
+Property Raisonsociale As %String;
 
-Property Raisonsocialelongue As %VarString;
+Property Raisonsocialelongue As %String;
 
-Property Complémentraisonsociale As %VarString;
+Property Complémentraisonsociale As %String;
 
-Property Codestatutjuridique As %VarString;
+Property Codestatutjuridique As %String;
 
-Property Libelléstatutjuridique As %VarString;
+Property Libelléstatutjuridique As %String;
 
-Property Libellécourtstatutjuridique As %VarString;
+Property Libellécourtstatutjuridique As %String;
 
-Property CodecatégorieEtablissement As %VarString;
+Property CodecatégorieEtablissement As %String;
 
-Property LibellécatégorieEtablissement As %VarString;
+Property LibellécatégorieEtablissement As %String;
 
-Property LibellécourtcatégorieEtablissement As %VarString;
+Property LibellécourtcatégorieEtablissement As %String;
 
-Property NuméroSIREN As %VarString;
+Property NuméroSIREN As %String;
 
-Property DatemodificationSIREN As %VarString;
+Property DatemodificationSIREN As %String;
 
-Property OriginemodificationSIREN As %VarString;
+Property OriginemodificationSIREN As %String;
 
-Property CodeAPE As %VarString;
+Property CodeAPE As %String;
 
-Property LibelléAPE As %VarString;
+Property LibelléAPE As %String;
 
-Property Datecréation As %VarString;
+Property Datecréation As %String;
 
-Property Datemàjstructure As %VarString;
+Property Datemàjstructure As %String;
 
-Property Datefermeture As %VarString;
+Property Datefermeture As %String;
 
-Property Typefermeture As %VarString;
+Property Typefermeture As %String;
 
-Property Qualificationcréation As %VarString;
+Property Qualificationcréation As %String;
 
-Property Complémentdestinataire As %VarString;
+Property Complémentdestinataire As %String;
 
-Property Complémentpointgéographique As %VarString;
+Property Complémentpointgéographique As %String;
 
-Property Numérovoie As %VarString;
+Property Numérovoie As %String;
 
-Property Indicerépétitionvoie As %VarString;
+Property Indicerépétitionvoie As %String;
 
-Property Codetypedevoie As %VarString;
+Property Codetypedevoie As %String;
 
-Property Libellétypedevoie As %VarString;
+Property Libellétypedevoie As %String;
 
-Property Libellévoie As %VarString;
+Property Libellévoie As %String;
 
-Property Mentiondistribution As %VarString;
+Property Mentiondistribution As %String;
 
-Property CodePostal As %VarString;
+Property CodePostal As %String;
 
-Property Bureaucedex As %VarString;
+Property Bureaucedex As %String;
 
-Property Codecommune As %VarString;
+Property Codecommune As %String;
 
-Property Libellécommune As %VarString;
+Property Libellécommune As %String;
 
-Property Libellécourtcommune As %VarString;
+Property Libellécourtcommune As %String;
 
-Property Codedépartement As %VarString;
+Property Codedépartement As %String;
 
-Property Libellédépartement As %VarString;
+Property Libellédépartement As %String;
 
-Property Codepays As %VarString;
+Property Codepays As %String;
 
-Property Libellépays As %VarString;
+Property Libellépays As %String;
 
-Property Téléphone As %VarString;
+Property Téléphone As %String;
 
-Property Téléphone2 As %VarString;
+Property Téléphone2 As %String;
 
-Property Télécopie As %VarString;
+Property Télécopie As %String;
 
-Property Adressemail As %VarString;
-
-Parameter RECORDMAPGENERATED = 1;
-
-Relationship %ParentBatch As MDM.EJFINESS.RM.CSV.Batch [ Cardinality = one, Inverse = Records ];
-
-Index %ParentBatchIdx On %ParentBatch;
+Property Adressemail As %String;
 
 Storage Default
 {
@@ -238,5 +232,11 @@ Storage Default
 <StreamLocation>^MDM.EJFINESS.RM.CSV.RecordS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
+
+Parameter RECORDMAPGENERATED = 1;
+
+Relationship %ParentBatch As MDM.EJFINESS.RM.CSV.Batch [ Cardinality = one, Inverse = Records ];
+
+Index %ParentBatchIdx On %ParentBatch;
 
 }

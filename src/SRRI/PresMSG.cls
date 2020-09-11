@@ -1,8 +1,10 @@
 /// RECORDMAP: Modified during compilation of RecordMap 'SRRI.PresMSG'
-/// on 2020-09-07 at 07:25:54.231 [2020-09-07 07:25:54.231 UTC]
-/// by user bmeftahi
+/// on 2020-09-11 at 15:58:39.062 [2020-09-11 15:58:39.062 UTC]
+/// by user SuperUser
 Class SRRI.PresMSG Extends EnsLib.RecordMap.RecordMap
 {
+
+Parameter OBJECTNAME = "SRRI.PresMSG.Record";
 
 /// Method to retrieve a record from a stream or device. This method will be generated based on the
 /// structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.
@@ -69,15 +71,13 @@ ClassMethod PutObject(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 	Quit tStatus
 }
 
-Parameter OBJECTNAME = "SRRI.PresMSG.Record";
-
 /// Internal helper method to perform parse of incoming data
 ClassMethod GetRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject, pGetTopFields As %Boolean, pTimeout As %Numeric, ByRef pLookAhead As %String = "", pLabelFound As %Boolean = 0) As %Status [ Internal, Private ]
 {
 	Set tStatus = $$$OK
 	If pLabelFound { Set tRecLabel = "" } 
 	Else { Set tRecLabel = "" } 
-	Set tStatus = ..chunkRecord(pStream, .tRecordData, .tCharCount, "", pTimeout, $char(10), tRecLabel, .pLookAhead, "")
+	Set tStatus = ..chunkRecord(pStream, .tRecordData, .tCharCount, "", pTimeout, $char(13,10), tRecLabel, .pLookAhead, "")
 	If $$$ISERR(tStatus) Quit tStatus
 	Set tMaxLocal = $$$MaxLocalLength
 	Set tRecordData("charcount") = +$get(tCharCount)
@@ -218,7 +218,7 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 	Do pStream.Write($char(59) _ $select(pHasTopFields: pObject.numérodetéléphonefixe,1: ""),0)
 	Do pStream.Write($char(59) _ $select(pHasTopFields: pObject.numérodetéléphoneportable,1: ""),0)
 	Do pStream.Write($char(59) _ $select(pHasTopFields: pObject.adressemail,1: ""),0)
-	Do pStream.Write($char(10), 0, .tStatus)
+	Do pStream.Write($char(13,10), 0, .tStatus)
 	If $$$ISERR(tStatus) Quit tStatus
 	Quit tStatus
 }
@@ -226,6 +226,7 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 ClassMethod GetGeneratedClasses(Output pClasses As %String) As %Status
 {
 	Kill pClasses
+	Set pClasses("SRRI.PresMSG.Batch")=""
 	Set pClasses("SRRI.PresMSG.Record")=""
 	Set pClasses($classname())=""
 	Quit $$$OK
@@ -243,7 +244,7 @@ ClassMethod getType() As EnsLib.RecordMap.Model.DataType.RecordType [ CodeMode =
 
 XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap" ]
 {
-<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="SRRI.PresMSG" type="delimited" char_encoding="UTF-8" targetClassname="SRRI.PresMSG.Record" recordTerminator="\x0a">
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="SRRI.PresMSG" type="delimited" char_encoding="UTF-8" targetClassname="SRRI.PresMSG.Record" batchClass="SRRI.PresMSG.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0d\x0a" allowEarlyTerminator="0">
   <Separators>
     <Separator>;</Separator>
   </Separators>

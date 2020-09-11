@@ -1,6 +1,6 @@
 /// RECORDMAP: Generated from RecordMap 'SRRI.PresMSG'
-/// on 2020-09-07 at 07:25:54.199 [2020-09-07 07:25:54.199 UTC]
-/// by user bmeftahi
+/// on 2020-09-11 at 15:58:39.039 [2020-09-11 15:58:39.039 UTC]
+/// by user SuperUser
 Class SRRI.PresMSG.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base) [ Inheritance = right, ProcedureBlock ]
 {
 
@@ -35,8 +35,6 @@ Property numérodetéléphonefixe As %String;
 Property numérodetéléphoneportable As %String;
 
 Property adressemail As %String;
-
-Parameter RECORDMAPGENERATED = 1;
 
 Storage Default
 {
@@ -92,6 +90,9 @@ Storage Default
 <Value name="17">
 <Value>Prénom</Value>
 </Value>
+<Value name="18">
+<Value>%ParentBatch</Value>
+</Value>
 </Data>
 <DataLocation>^SRRI.PresMSG.RecordD</DataLocation>
 <DefaultData>RecordDefaultData</DefaultData>
@@ -101,5 +102,11 @@ Storage Default
 <StreamLocation>^SRRI.PresMSG.RecordS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
+
+Parameter RECORDMAPGENERATED = 1;
+
+Relationship %ParentBatch As SRRI.PresMSG.Batch [ Cardinality = one, Inverse = Records ];
+
+Index %ParentBatchIdx On %ParentBatch;
 
 }
