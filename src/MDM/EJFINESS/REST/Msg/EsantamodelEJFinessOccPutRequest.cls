@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccPutRequest Extends (Ens.Request, %JSON.Adaptor)
+Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccPutRequest Extends (Grongier.JsonTraceViewer.Request, %JSON.Adaptor)
 {
 
 Property systemGUID As %String;

@@ -1,4 +1,4 @@
-Class Grongier.Insee.Msg.GetSirenResponse Extends (Ens.Response, Grongier.Insee.Definition.Reponse)
+Class Grongier.Insee.Msg.GetSirenResponse Extends (Grongier.JsonTraceViewer.Response, Grongier.Insee.Definition.Reponse)
 {
 
 Property uniteLegale As Grongier.Insee.Definition.UniteLegale;

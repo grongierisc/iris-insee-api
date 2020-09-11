@@ -1,4 +1,4 @@
-Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetResponse Extends (Ens.Response, %JSON.Adaptor)
+Class MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetResponse Extends (Grongier.JsonTraceViewer.Response, %JSON.Adaptor)
 {
 
 Parameter JSONIGNOREINVALIDFIELD = 1;
