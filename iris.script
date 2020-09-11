@@ -5,10 +5,11 @@ do $SYSTEM.OBJ.Load("/opt/irisapp/Installer.cls", "ck")
 set sc = ##class(App.Installer).setup() 
 
 zn namespace
-zw $System.OBJ.ImportDir("/opt/irisapp/src/","*","cdk",.errors,1)
-
 zpm "install csvgen"
 zpm "install restforms2"
+zw $System.OBJ.ImportDir("/opt/irisapp/src/","*","cdk",.errors,1)
+
+
 ; do ##class(community.csvgen).Generate("/irisdev/app/misc/etalab-cs1100501-stock-20200511-0421.csv",";","MDM.EJFINESS.Table.Finess")
 
 zn "%SYS"
