@@ -24,6 +24,7 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="HTTPServer">test.iris.kanosoftware.net</Setting>
     <Setting Target="Adapter" Name="URL">/mdm/restapi</Setting>
     <Setting Target="Host" Name="ArchiveIO">1</Setting>
+    <Setting Target="Adapter" Name="Credentials">kano</Setting>
   </Item>
   <Item Name="MDM.EJFINESS.CSV" Category="" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BatchClass">MDM.EJFINESS.RM.CSV.Batch</Setting>
@@ -52,6 +53,16 @@ XData ProductionDefinition
   </Item>
   <Item Name="SRRI.routerRoutingRule" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">SRRI.routerRoutingRule</Setting>
+  </Item>
+  <Item Name="Ens.Alert" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="BusinessRuleName">MDM.EJFINESS.Ens.AlertRoutingRule</Setting>
+  </Item>
+  <Item Name="EnsLib.EMail.AlertOperation" Category="" ClassName="EnsLib.EMail.AlertOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="SMTPPort">25</Setting>
+    <Setting Target="Adapter" Name="SMTPServer">host.docker.internal</Setting>
+    <Setting Target="Host" Name="IncludeDetails">1</Setting>
+    <Setting Target="Adapter" Name="From">iris@prod.com</Setting>
+    <Setting Target="Adapter" Name="Recipient">prod@prod.com</Setting>
   </Item>
 </Production>
 }

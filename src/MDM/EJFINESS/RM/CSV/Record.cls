@@ -6,87 +6,87 @@ Class MDM.EJFINESS.RM.CSV.Record Extends (%Persistent, %XML.Adaptor, Ens.Request
 
 Parameter INCLUDETOPFIELDS = 1;
 
-Property NuméroFINESSEJ As %String;
+Property NuméroFINESSEJ As %VarString;
 
-Property Raisonsociale As %String;
+Property Raisonsociale As %VarString;
 
-Property Raisonsocialelongue As %String;
+Property Raisonsocialelongue As %VarString;
 
-Property Complémentraisonsociale As %String;
+Property Complémentraisonsociale As %VarString;
 
-Property Codestatutjuridique As %String;
+Property Codestatutjuridique As %VarString;
 
-Property Libelléstatutjuridique As %String;
+Property Libelléstatutjuridique As %VarString;
 
-Property Libellécourtstatutjuridique As %String;
+Property Libellécourtstatutjuridique As %VarString;
 
-Property CodecatégorieEtablissement As %String;
+Property CodecatégorieEtablissement As %VarString;
 
-Property LibellécatégorieEtablissement As %String;
+Property LibellécatégorieEtablissement As %VarString;
 
-Property LibellécourtcatégorieEtablissement As %String;
+Property LibellécourtcatégorieEtablissement As %VarString;
 
-Property NuméroSIREN As %String;
+Property NuméroSIREN As %VarString;
 
-Property DatemodificationSIREN As %String;
+Property DatemodificationSIREN As %VarString;
 
-Property OriginemodificationSIREN As %String;
+Property OriginemodificationSIREN As %VarString;
 
-Property CodeAPE As %String;
+Property CodeAPE As %VarString;
 
-Property LibelléAPE As %String;
+Property LibelléAPE As %VarString;
 
-Property Datecréation As %String;
+Property Datecréation As %VarString;
 
-Property Datemàjstructure As %String;
+Property Datemàjstructure As %VarString;
 
-Property Datefermeture As %String;
+Property Datefermeture As %VarString;
 
-Property Typefermeture As %String;
+Property Typefermeture As %VarString;
 
-Property Qualificationcréation As %String;
+Property Qualificationcréation As %VarString;
 
-Property Complémentdestinataire As %String;
+Property Complémentdestinataire As %VarString;
 
-Property Complémentpointgéographique As %String;
+Property Complémentpointgéographique As %VarString;
 
-Property Numérovoie As %String;
+Property Numérovoie As %VarString;
 
-Property Indicerépétitionvoie As %String;
+Property Indicerépétitionvoie As %VarString;
 
-Property Codetypedevoie As %String;
+Property Codetypedevoie As %VarString;
 
-Property Libellétypedevoie As %String;
+Property Libellétypedevoie As %VarString;
 
-Property Libellévoie As %String;
+Property Libellévoie As %VarString;
 
-Property Mentiondistribution As %String;
+Property Mentiondistribution As %VarString;
 
-Property CodePostal As %String;
+Property CodePostal As %VarString;
 
-Property Bureaucedex As %String;
+Property Bureaucedex As %VarString;
 
-Property Codecommune As %String;
+Property Codecommune As %VarString;
 
-Property Libellécommune As %String;
+Property Libellécommune As %VarString;
 
-Property Libellécourtcommune As %String;
+Property Libellécourtcommune As %VarString;
 
-Property Codedépartement As %String;
+Property Codedépartement As %VarString;
 
-Property Libellédépartement As %String;
+Property Libellédépartement As %VarString;
 
-Property Codepays As %String;
+Property Codepays As %VarString;
 
-Property Libellépays As %String;
+Property Libellépays As %VarString;
 
-Property Téléphone As %String;
+Property Téléphone As %VarString;
 
-Property Téléphone2 As %String;
+Property Téléphone2 As %VarString;
 
-Property Télécopie As %String;
+Property Télécopie As %VarString;
 
-Property Adressemail As %String;
+Property Adressemail As %VarString;
 
 Storage Default
 {

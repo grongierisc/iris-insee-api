@@ -30,6 +30,9 @@ Method PutEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As E
     $$$LOGINFO(stream.Read())
 
     set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    If '$IsObject(..Adapter.%CredentialsObj) Do ..Adapter.CredentialsSet(..Adapter.Credentials) If '$IsObject(..Adapter.%CredentialsObj) { Set tSC=$$$EnsError($$$EnsErrNoCredentials,..Adapter.Credentials) Quit }
+    Set tHttpRequest.Username=..Adapter.%CredentialsObj.Username,tHttpRequest.Password=..Adapter.%CredentialsObj.Password		
+
     set tHttpRequest.ContentType = "application/json"
     Set tHttpRequest.Server=..Adapter.HTTPServer, tHttpRequest.Port=..Adapter.HTTPPort
     do tHttpRequest.EntityBody.CopyFrom(stream)
@@ -38,9 +41,9 @@ Method PutEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As E
     set tHttpResponse = tHttpRequest.HttpResponse
     
     
-    If $IsObject(tHttpResponse) {
+    If $IsObject(tHttpResponse.Data) {
     
-        set dyna = {}.%FromJSON(tHttpResponse.Data)
+        set dyna = {}.%FromJSON($s(tHttpResponse.Data.Read()="":"{}",1:tHttpResponse.Data))
         if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
             set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
         }
@@ -64,6 +67,9 @@ Method PostEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As 
     $$$LOGINFO(stream.Read())
 
     set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    If '$IsObject(..Adapter.%CredentialsObj) Do ..Adapter.CredentialsSet(..Adapter.Credentials) If '$IsObject(..Adapter.%CredentialsObj) { Set tSC=$$$EnsError($$$EnsErrNoCredentials,..Adapter.Credentials) Quit }
+    Set tHttpRequest.Username=..Adapter.%CredentialsObj.Username,tHttpRequest.Password=..Adapter.%CredentialsObj.Password		
+
     set tHttpRequest.ContentType = "application/json"
     Set tHttpRequest.Server=..Adapter.HTTPServer, tHttpRequest.Port=..Adapter.HTTPPort
     do tHttpRequest.EntityBody.CopyFrom(stream)
@@ -72,9 +78,9 @@ Method PostEsantamodelEJFinessOcc(pResquest As Ens.Request, Output pResponse As 
     set tHttpResponse = tHttpRequest.HttpResponse
     
     
-    If $IsObject(tHttpResponse) {
+    If $IsObject(tHttpResponse.Data) {
     
-        set dyna = {}.%FromJSON(tHttpResponse.Data)
+        set dyna = {}.%FromJSON($s(tHttpResponse.Data.Read()="":"{}",1:tHttpResponse.Data))
         if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
             set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
         }
@@ -94,6 +100,9 @@ Method GetEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.EsantamodelE
     Set tURL = tURL_"/esanta_model_EJFinessOcc"
 
     set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    If '$IsObject(..Adapter.%CredentialsObj) Do ..Adapter.CredentialsSet(..Adapter.Credentials) If '$IsObject(..Adapter.%CredentialsObj) { Set tSC=$$$EnsError($$$EnsErrNoCredentials,..Adapter.Credentials) Quit }
+    Set tHttpRequest.Username=..Adapter.%CredentialsObj.Username,tHttpRequest.Password=..Adapter.%CredentialsObj.Password		
+
     set tHttpRequest.ContentType = "application/json"
     do tHttpRequest.SetParam("systemGUID",pResquest.systemGUID)
     do tHttpRequest.SetParam("isAsync",pResquest.isAsync)
@@ -104,9 +113,9 @@ Method GetEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.EsantamodelE
     set sc = tHttpRequest.Send("GET",tURL)
     set tHttpResponse = tHttpRequest.HttpResponse
     
-    If $IsObject(tHttpResponse) {
-    
-        set dyna = {}.%FromJSON(tHttpResponse.Data)
+    If $IsObject(tHttpResponse.Data) {
+        $$$LOGINFO(tHttpResponse.Data)
+        set dyna = {}.%FromJSON($s(tHttpResponse.Data.Read()="":"{}",1:tHttpResponse.Data))
         $$$LOGINFO(dyna.%ToJSON())
         if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
             set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
@@ -128,6 +137,9 @@ Method LinkEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.Esantamodel
     Set tURL = tURL_"/esanta_model_EJFinessOcc/link"
 
     set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    If '$IsObject(..Adapter.%CredentialsObj) Do ..Adapter.CredentialsSet(..Adapter.Credentials) If '$IsObject(..Adapter.%CredentialsObj) { Set tSC=$$$EnsError($$$EnsErrNoCredentials,..Adapter.Credentials) Quit }
+    Set tHttpRequest.Username=..Adapter.%CredentialsObj.Username,tHttpRequest.Password=..Adapter.%CredentialsObj.Password		
+
     set tHttpRequest.ContentType = "application/json"
     do tHttpRequest.SetParam("systemGUID",pResquest.systemGUID)
     do tHttpRequest.SetParam("isAsync",pResquest.isAsync)
@@ -138,9 +150,9 @@ Method LinkEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.Esantamodel
     set sc = tHttpRequest.Send("GET",tURL)
     set tHttpResponse = tHttpRequest.HttpResponse
     
-    If $IsObject(tHttpResponse) {
+    If $IsObject(tHttpResponse.Data) {
     
-        set dyna = {}.%FromJSON(tHttpResponse.Data)
+        set dyna = {}.%FromJSON($s(tHttpResponse.Data.Read()="":"{}",1:tHttpResponse.Data))
         $$$LOGINFO(dyna.%ToJSON())
         if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
             set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
