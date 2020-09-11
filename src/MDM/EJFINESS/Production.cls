@@ -40,6 +40,7 @@ XData ProductionDefinition
     <Setting Target="Host" Name="Filename">%f_%Q.HL7</Setting>
     <Setting Target="Adapter" Name="FilePath">/tmp/occitanie/out/</Setting>
     <Setting Target="Host" Name="AlertOnError">1</Setting>
+    <Setting Target="Adapter" Name="Charset">utf-8</Setting>
   </Item>
   <Item Name="IHEPAM.TCP.OUT" Category="" ClassName="EnsLib.HL7.Operation.TCPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="IPAddress">localhost</Setting>
