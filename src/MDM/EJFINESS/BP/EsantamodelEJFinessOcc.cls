@@ -21,16 +21,17 @@ Storage Default
 /// BPL Definition
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 {
-<process language='objectscript' request='Ens.Request' response='Ens.Response' height='2000' width='2000' >
+<process language='objectscript' request='MDM.EJFINESS.Record.Record' response='Ens.Response' height='2000' width='2000' >
 <context>
 <property name='EsantamodelEJFinessOccAddRequest' type='MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccAddRequest' instantiate='0' />
 <property name='tDT' type='MDM.EJFINESS.REST.Definition.esantamodelEJFinessOccAddRequest' instantiate='0' />
 </context>
-<sequence xend='200' yend='550' >
+<sequence xend='200' yend='450' >
 <transform name='DT' class='MDM.EJFINESS.DT.CsvToObj' source='request' target='context.tDT' xpos='200' ypos='250' />
-<call name='Post WS' target='MDM.EJFINESS.REST.Operation' async='0' xpos='200' ypos='450' >
+<call name='Post WS' target='MDM.EJFINESS.REST.Operation' async='0' xpos='200' ypos='350' >
 <request type='MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccAddRequest' >
 <assign property="callrequest" value="context.tDT" action="set" />
+<assign property="callrequest.initSystemRecordId" value="&quot;toto&quot;_callrequest.initSystemRecordId" action="set" />
 </request>
 <response type='Ens.Response' />
 </call>

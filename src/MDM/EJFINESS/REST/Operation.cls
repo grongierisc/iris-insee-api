@@ -121,6 +121,40 @@ Method GetEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.EsantamodelE
     Quit sc
 }
 
+Method LinkEsantamodelEJFinessOcc(pResquest As MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccLinkRequest, Output pResponse As Ens.StringContainer) As %Status
+{
+
+    Set tURL = ..Adapter.URL
+    Set tURL = tURL_"/esanta_model_EJFinessOcc/link"
+
+    set tHttpRequest = ##class(%Net.HttpRequest).%New()
+    set tHttpRequest.ContentType = "application/json"
+    do tHttpRequest.SetParam("systemGUID",pResquest.systemGUID)
+    do tHttpRequest.SetParam("isAsync",pResquest.isAsync)
+    do tHttpRequest.SetParam("initSystemRecordId",pResquest.initSystemRecordId)
+    do tHttpRequest.SetParam("mdmRecordId",pResquest.mdmRecordId)
+    Set tHttpRequest.Server=..Adapter.HTTPServer, tHttpRequest.Port=..Adapter.HTTPPort
+    
+    set sc = tHttpRequest.Send("GET",tURL)
+    set tHttpResponse = tHttpRequest.HttpResponse
+    
+    If $IsObject(tHttpResponse) {
+    
+        set dyna = {}.%FromJSON(tHttpResponse.Data)
+        $$$LOGINFO(dyna.%ToJSON())
+        if (dyna.status = "ERROR") || (+tHttpResponse.StatusCode'?1"2"2N) {
+            set sc = $$$ERROR(9200,"Erreur http : "_tHttpResponse.StatusCode_" Body : "_dyna.%ToJSON())
+        }
+        Else {
+            set pResponse = ##class(MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetResponse).%New()
+             $$$ThrowOnError(pResponse.%JSONImport(dyna.%ToJSON()))
+        }
+    
+    }
+
+    Quit sc
+}
+
 XData MessageMap
 {
 <MapItems>
@@ -135,6 +169,9 @@ XData MessageMap
 	</MapItem>
 	<MapItem MessageType="MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccGetRequest"> 
 		<Method>GetEsantamodelEJFinessOcc</Method>
+	</MapItem>
+	<MapItem MessageType="MDM.EJFINESS.REST.Msg.EsantamodelEJFinessOccLinkRequest"> 
+		<Method>LinkEsantamodelEJFinessOcc</Method>
 	</MapItem>
 </MapItems>
 }
