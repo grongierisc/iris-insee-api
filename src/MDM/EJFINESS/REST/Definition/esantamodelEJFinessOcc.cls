@@ -7,6 +7,8 @@ Property APE As esantamodelAPE;
 
 Property mdmId As %Integer;
 
+Property isGoldenRecord As %Boolean;
+
 Property initSystemRecordId As %String;
 
 Property dictClassName As %String;
@@ -233,6 +235,9 @@ Storage Default
 </Value>
 <Value name="46">
 <Value>typologie</Value>
+</Value>
+<Value name="47">
+<Value>isGoldenRecord</Value>
 </Value>
 </Data>
 <DataLocation>^MDM.EJFINEBD14.esantamodel4318D</DataLocation>
